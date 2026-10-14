@@ -1,7 +1,7 @@
 # =============================================================================
 # JurisAI - Kubernetes deployment (Rit Services cluster)
 #   Ingress: Traefik IngressRoute   TLS: cert-manager (letsencrypt-prod)
-#   Storage: Longhorn PVCs          Registry: GHCR (ghcr.io/shahnehalali/*, private)
+#   Storage: Longhorn PVCs          Registry: GHCR (ghcr.io/rit-services/*, private)
 #   Host:    compliance.rit.services
 #
 # Prerequisites created OUT OF BAND (not in this file, see k8s/README.md):
@@ -157,7 +157,7 @@ spec:
           command: ["sh", "-c", "until nc -z jurisai-postgres 5432; do echo 'waiting for postgres'; sleep 2; done"]
       containers:
         - name: server
-          image: ghcr.io/shahnehalali/jurisai-server:sha-813287ae
+          image: ghcr.io/rit-services/jurisai-server:sha-21ff307e
           imagePullPolicy: Always
           ports:
             - containerPort: 4000
@@ -229,7 +229,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: client
-          image: ghcr.io/shahnehalali/jurisai-client:sha-813287ae
+          image: ghcr.io/rit-services/jurisai-client:sha-21ff307e
           imagePullPolicy: Always
           ports:
             - containerPort: 80
