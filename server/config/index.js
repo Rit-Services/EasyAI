@@ -18,6 +18,17 @@ const config = {
   // MUST be stable in production and backed up, or encrypted data becomes unreadable.
   dataEncKey: process.env.DATA_ENC_KEY || '',
 
+  // Garage (self-hosted S3-compatible store) for uploaded documents. When
+  // GARAGE_S3_ENDPOINT is unset (dev), documentController falls back to the
+  // local `uploads/` directory on disk.
+  garage: {
+    endpoint: process.env.GARAGE_S3_ENDPOINT || '',
+    region: process.env.GARAGE_S3_REGION || 'garage',
+    bucket: process.env.GARAGE_BUCKET || '',
+    accessKeyId: process.env.GARAGE_ACCESS_KEY_ID || '',
+    secretAccessKey: process.env.GARAGE_SECRET_ACCESS_KEY || '',
+  },
+
   email: {
     // Resend is the primary transport. When RESEND_API_KEY is set it is used;
     // otherwise the app falls back to SMTP / console (see emailService).

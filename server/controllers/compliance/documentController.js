@@ -5,17 +5,36 @@ const ErrorResponse = require('../../utils/errorResponse');
 const { uploadDir, newStorageKey } = require('../../config/upload');
 const { recordAudit } = require('../../utils/audit');
 const { encryptBuffer, decryptBuffer } = require('../../services/crypto/fieldCrypto');
+const garageStorage = require('../../services/storage/garageStorage');
+
+// Storage backend for the raw (already-encrypted) bytes. Garage when
+// configured (production); local uploads/ directory otherwise (dev).
+// Keyed by Document.storageKey either way, so the two are drop-in compatible.
+const blobStore = garageStorage.isEnabled
+  ? {
+      write: (key, data) => garageStorage.putObject(key, data),
+      read: (key) => garageStorage.getObject(key),
+      exists: async (key) => (await garageStorage.headObject(key)).exists,
+      remove: (key) => garageStorage.deleteObject(key),
+    }
+  : {
+      write: (key, data) => fs.promises.writeFile(path.join(uploadDir, key), data),
+      read: (key) => fs.promises.readFile(path.join(uploadDir, key)),
+      exists: async (key) => fs.existsSync(path.join(uploadDir, key)),
+      remove: (key) => fs.promises.unlink(path.join(uploadDir, key)),
+    };
 
 // POST /api/documents  (multipart: file + optional assessmentId / checklistItemResponseId / aiSystemId)
 async function create(req, res) {
   if (!req.file) throw new ErrorResponse('A file is required', 422);
 
-  // Encrypt with the org data key BEFORE the bytes reach the disk. Evidence
+  // Encrypt with the org data key BEFORE the bytes reach storage. Evidence
   // uploads (DPIAs, incident reports, HR records) are the most sensitive
-  // personal data in the product, so they never exist as plaintext at rest.
+  // personal data in the product, so they never exist as plaintext at rest,
+  // on disk or in the bucket.
   const { data, encrypted } = await encryptBuffer(req.organizationId, req.file.buffer);
   const storageKey = newStorageKey(req.file.originalname);
-  await fs.promises.writeFile(path.join(uploadDir, storageKey), data);
+  await blobStore.write(storageKey, data);
 
   let doc;
   try {
@@ -34,8 +53,8 @@ async function create(req, res) {
       },
     });
   } catch (err) {
-    // Don't leave an orphan blob on disk if the row could not be written.
-    await fs.promises.unlink(path.join(uploadDir, storageKey)).catch(() => {});
+    // Don't leave an orphan blob in storage if the row could not be written.
+    await blobStore.remove(storageKey).catch(() => {});
     throw err;
   }
 
@@ -61,10 +80,9 @@ async function findOwned(id, organizationId) {
 // GET /api/documents/:id/download
 async function download(req, res) {
   const doc = await findOwned(req.params.id, req.organizationId);
-  const filePath = path.join(uploadDir, doc.storageKey);
-  if (!fs.existsSync(filePath)) throw new ErrorResponse('File is missing from storage', 404);
+  if (!(await blobStore.exists(doc.storageKey))) throw new ErrorResponse('File is missing from storage', 404);
 
-  const raw = await fs.promises.readFile(filePath);
+  const raw = await blobStore.read(doc.storageKey);
   // `encrypted: false` rows predate at-rest encryption and are served as-is.
   const body = doc.encrypted ? await decryptBuffer(req.organizationId, raw) : raw;
 
@@ -76,8 +94,7 @@ async function download(req, res) {
 // DELETE /api/documents/:id
 async function remove(req, res) {
   const doc = await findOwned(req.params.id, req.organizationId);
-  const filePath = path.join(uploadDir, doc.storageKey);
-  fs.promises.unlink(filePath).catch(() => {});
+  blobStore.remove(doc.storageKey).catch(() => {});
   await prisma.document.delete({ where: { id: doc.id } });
   await recordAudit({ req, action: 'document.delete', entityType: 'Document', entityId: doc.id });
   res.json({ message: 'Document deleted' });
