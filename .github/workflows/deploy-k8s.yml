@@ -13,7 +13,9 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_OWNER: shahnehalali
+  # Org namespace: since the repo moved to Rit-Services, the built-in
+  # GITHUB_TOKEN can only publish packages under the org, not a personal account.
+  IMAGE_OWNER: rit-services
 
 jobs:
   build-and-push:

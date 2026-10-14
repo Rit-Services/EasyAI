@@ -6,7 +6,7 @@ Deployment with HTTPS).
 
 - **Host:** `jurisai.rit.services`
 - **Cluster ingress IP:** `172.236.204.215` (point DNS here)
-- **Images:** `ghcr.io/shahnehalali/jurisai-server`, `ghcr.io/shahnehalali/jurisai-client` (GHCR, private)
+- **Images:** `ghcr.io/rit-services/jurisai-server`, `ghcr.io/rit-services/jurisai-client` (GHCR, private)
 - **TLS:** cert-manager `letsencrypt-prod` → `jurisai-tls`
 - **Ingress:** Traefik `IngressRoute` (path `/api` + `/uploads` → server, rest → client)
 - **Storage:** Longhorn PVCs (Postgres data + uploaded documents)
