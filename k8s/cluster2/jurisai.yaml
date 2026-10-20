@@ -1,0 +1,208 @@
+# =============================================================================
+# JurisAI on cluster 2 (Hetzner prod, rit-prod-hetzner). ArgoCD app `jurisai` on
+# cluster 2 points at THIS folder (k8s/cluster2). Cluster 1 keeps using k8s/.
+#
+# Differences from k8s/jurisai-k8s.yaml:
+#   - No Postgres pod, PVC, StorageClass or backup CronJob: the database is
+#     `jurisai` on the shared CNPG cluster prod-ha-1 (postgres/postgres).
+#     Its login comes from Secret `jurisai-prodha1-db` (made by the admin's
+#     prepare-app.sh), which overrides DATABASE_URL from jurisai-app-secrets.
+#   - jurisai-server starts at replicas: 0 so nothing writes to prod-ha-1
+#     before the final database copy. Set it to 1 at cutover.
+#
+# Out of band on cluster 2: Secrets jurisai-app-secrets (same DATA_ENC_KEY as
+# cluster 1), ghcr-secret, jurisai-prodha1-db.
+# =============================================================================
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jurisai-uploads-enc-pvc
+  namespace: jurisai
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: longhorn-encrypted
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jurisai-server
+  namespace: jurisai
+spec:
+  # 0 until the final database copy has passed; then 1. Never more than 1:
+  # it runs migrate/seed on start and owns the ReadWriteOnce uploads volume.
+  replicas: 0
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: jurisai-server
+  template:
+    metadata:
+      labels:
+        app: jurisai-server
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      initContainers:
+        - name: wait-for-db
+          image: busybox:1.36
+          command: ["sh", "-c", "until nc -z postgres-rw.postgres.svc.cluster.local 5432; do echo 'waiting for prod-ha-1'; sleep 2; done"]
+      containers:
+        - name: server
+          image: ghcr.io/rit-services/jurisai-server:sha-21ff307e
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+          env:
+            - name: DATABASE_URL # prod-ha-1; overrides the old value in jurisai-app-secrets
+              valueFrom: { secretKeyRef: { name: jurisai-prodha1-db, key: DATABASE_URL } }
+            - name: CLIENT_URL
+              value: https://compliance.rit.services
+            - name: FEEDBACK_RECIPIENTS
+              value: shahnehal.a@rit.services
+            - name: SPIREX_ORG_ID
+              value: cmpwl383l0001ak5y1kc0rxmt
+            - name: SPIREX_PROJECT_ID
+              value: cmqjaz9si012s13blgllmzcsp
+          envFrom:
+            - secretRef:
+                name: jurisai-app-secrets
+          volumeMounts:
+            - name: uploads
+              mountPath: /app/uploads
+          readinessProbe:
+            httpGet: { path: /api/health, port: 4000 }
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /api/health, port: 4000 }
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          resources:
+            requests: { cpu: "100m", memory: "256Mi" }
+            limits: { cpu: "1", memory: "1Gi" }
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: jurisai-uploads-enc-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jurisai-server
+  namespace: jurisai
+spec:
+  selector:
+    app: jurisai-server
+  ports:
+    - port: 4000
+      targetPort: 4000
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jurisai-client
+  namespace: jurisai
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jurisai-client
+  template:
+    metadata:
+      labels:
+        app: jurisai-client
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: client
+          image: ghcr.io/rit-services/jurisai-client:sha-21ff307e
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet: { path: /, port: 80 }
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests: { cpu: "50m", memory: "64Mi" }
+            limits: { cpu: "500m", memory: "256Mi" }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jurisai-client
+  namespace: jurisai
+spec:
+  selector:
+    app: jurisai-client
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: jurisai-client-hpa
+  namespace: jurisai
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: jurisai-client
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+---
+# HTTP-01: issuance only succeeds once DNS for compliance.rit.services points
+# at cluster 2. Until then it stays pending, which is harmless.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: jurisai-cert
+  namespace: jurisai
+spec:
+  secretName: jurisai-tls
+  dnsNames:
+    - compliance.rit.services
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
+  privateKey:
+    rotationPolicy: Always
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jurisai-ingressroute
+  namespace: jurisai
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(`compliance.rit.services`) && (PathPrefix(`/api`) || PathPrefix(`/uploads`))
+      kind: Rule
+      services:
+        - name: jurisai-server
+          port: 4000
+    - match: Host(`compliance.rit.services`)
+      kind: Rule
+      services:
+        - name: jurisai-client
+          port: 80
+  tls:
+    secretName: jurisai-tls
