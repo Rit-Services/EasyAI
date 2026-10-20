@@ -60,7 +60,7 @@ spec:
             - name: DATABASE_URL # prod-ha-1; overrides the old value in jurisai-app-secrets
               valueFrom: { secretKeyRef: { name: jurisai-prodha1-db, key: DATABASE_URL } }
             - name: CLIENT_URL
-              value: https://compliance.rit.services
+              value: https://compliance.k8s.rit.services
             - name: FEEDBACK_RECIPIENTS
               value: shahnehal.a@rit.services
             - name: SPIREX_ORG_ID
@@ -166,7 +166,7 @@ spec:
           type: Utilization
           averageUtilization: 70
 ---
-# HTTP-01: issuance only succeeds once DNS for compliance.rit.services points
+# HTTP-01: issuance only succeeds once DNS for compliance.k8s.rit.services points
 # at cluster 2. Until then it stays pending, which is harmless.
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -176,7 +176,7 @@ metadata:
 spec:
   secretName: jurisai-tls
   dnsNames:
-    - compliance.rit.services
+    - compliance.k8s.rit.services
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
@@ -193,12 +193,12 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`compliance.rit.services`) && (PathPrefix(`/api`) || PathPrefix(`/uploads`))
+    - match: Host(`compliance.k8s.rit.services`) && (PathPrefix(`/api`) || PathPrefix(`/uploads`))
       kind: Rule
       services:
         - name: jurisai-server
           port: 4000
-    - match: Host(`compliance.rit.services`)
+    - match: Host(`compliance.k8s.rit.services`)
       kind: Rule
       services:
         - name: jurisai-client
@@ -228,7 +228,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`compliance.rit.services`)
+    - match: Host(`compliance.k8s.rit.services`)
       kind: Rule
       middlewares:
         - name: jurisai-redirect-https
