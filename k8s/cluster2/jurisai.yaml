@@ -191,7 +191,6 @@ metadata:
   namespace: jurisai
 spec:
   entryPoints:
-    - web
     - websecure
   routes:
     - match: Host(`compliance.rit.services`) && (PathPrefix(`/api`) || PathPrefix(`/uploads`))
@@ -206,3 +205,33 @@ spec:
           port: 80
   tls:
     secretName: jurisai-tls
+---
+# http:// -> https:// (same pattern as seo-geo on this cluster). cert-manager's
+# HTTP-01 solver route (Host + /.well-known/acme-challenge/...) is longer, so
+# Traefik still sends challenges to the solver, not to this redirect.
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: jurisai-redirect-https
+  namespace: jurisai
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jurisai-redirect
+  namespace: jurisai
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`compliance.rit.services`)
+      kind: Rule
+      middlewares:
+        - name: jurisai-redirect-https
+      services:
+        - name: jurisai-client
+          port: 80
