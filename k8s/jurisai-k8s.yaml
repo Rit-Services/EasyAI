@@ -134,9 +134,10 @@ metadata:
   name: jurisai-server
   namespace: jurisai
 spec:
-  # Single replica: it runs migrate/seed on start and is the sole writer of the
-  # ReadWriteOnce uploads volume. Do not add an HPA to this Deployment.
-  replicas: 1
+  # 0: the app moved to cluster 2 (compliance.k8s.rit.services, database on
+  # prod-ha-1) on 2026-10-20. This database is the pre-move copy; keep it until
+  # the move is confirmed, then retire cluster 1's jurisai resources.
+  replicas: 0
   strategy:
     type: Recreate
   selector:
@@ -302,17 +303,26 @@ spec:
     - web
     - websecure
   routes:
-    # API + uploaded files go to the server (longer rule => higher priority).
-    - match: Host(`compliance.rit.services`) && (PathPrefix(`/api`) || PathPrefix(`/uploads`))
-      kind: Rule
-      services:
-        - name: jurisai-server
-          port: 4000
-    # Everything else is the SPA.
+    # The app now runs on cluster 2. Send every request for the old address to
+    # the new one (temporary redirect: we return to this name once HAProxy
+    # routes compliance.rit.services to cluster 2).
     - match: Host(`compliance.rit.services`)
       kind: Rule
+      middlewares:
+        - name: jurisai-moved
       services:
         - name: jurisai-client
           port: 80
   tls:
     secretName: jurisai-tls
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: jurisai-moved
+  namespace: jurisai
+spec:
+  redirectRegex:
+    regex: ^https?://compliance\.rit\.services/(.*)
+    replacement: https://compliance.k8s.rit.services/${1}
+    permanent: false

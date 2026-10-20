@@ -31,9 +31,9 @@ metadata:
   name: jurisai-server
   namespace: jurisai
 spec:
-  # 0 until the final database copy has passed; then 1. Never more than 1:
-  # it runs migrate/seed on start and owns the ReadWriteOnce uploads volume.
-  replicas: 0
+  # Never more than 1: it runs migrate/seed on start and owns the
+  # ReadWriteOnce uploads volume.
+  replicas: 1
   strategy:
     type: Recreate
   selector:
