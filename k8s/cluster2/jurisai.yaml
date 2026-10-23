@@ -13,6 +13,17 @@
 # Out of band on cluster 2: Secrets jurisai-app-secrets (same DATA_ENC_KEY as
 # cluster 1), ghcr-secret, jurisai-prodha1-db.
 # =============================================================================
+# The namespace is declared so ArgoCD never treats it as an orphan: this app
+# first synced the cluster-1 folder, which tracked the Namespace, and a "Sync
+# with Prune" would otherwise delete it with everything in it. Prune=false and
+# Delete=false keep it even when pruning or deleting the app.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: jurisai
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
