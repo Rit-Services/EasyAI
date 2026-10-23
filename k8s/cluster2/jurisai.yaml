@@ -46,14 +46,29 @@ spec:
     spec:
       imagePullSecrets:
         - name: ghcr-secret
+      # Non-root (the image's `node` user). fsGroup makes the uploads volume
+      # writable for it.
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile: { type: RuntimeDefault }
       initContainers:
         - name: wait-for-db
           image: busybox:1.36
           command: ["sh", "-c", "until nc -z postgres-rw.postgres.svc.cluster.local 5432; do echo 'waiting for prod-ha-1'; sleep 2; done"]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
       containers:
         - name: server
           image: ghcr.io/rit-services/jurisai-server:sha-21ff307e
           imagePullPolicy: Always
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: ["ALL"] }
           ports:
             - containerPort: 4000
           env:
@@ -119,10 +134,22 @@ spec:
     spec:
       imagePullSecrets:
         - name: ghcr-secret
+      securityContext:
+        seccompProfile: { type: RuntimeDefault }
+        # Lets the non-root nginx keep listening on port 80 (namespaced, safe sysctl).
+        sysctls:
+          - { name: net.ipv4.ip_unprivileged_port_start, value: "80" }
       containers:
         - name: client
           image: ghcr.io/rit-services/jurisai-client:sha-21ff307e
           imagePullPolicy: Always
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 101
+            runAsGroup: 101
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
           ports:
             - containerPort: 80
           readinessProbe:
@@ -132,6 +159,16 @@ spec:
           resources:
             requests: { cpu: "50m", memory: "64Mi" }
             limits: { cpu: "500m", memory: "256Mi" }
+          # The only writable paths. /tmp is what nginx-unprivileged uses;
+          # /var/cache/nginx and /var/run keep the stock-nginx image working too.
+          volumeMounts:
+            - { name: tmp, mountPath: /tmp }
+            - { name: nginx-cache, mountPath: /var/cache/nginx }
+            - { name: nginx-run, mountPath: /var/run }
+      volumes:
+        - { name: tmp, emptyDir: {} }
+        - { name: nginx-cache, emptyDir: {} }
+        - { name: nginx-run, emptyDir: {} }
 ---
 apiVersion: v1
 kind: Service

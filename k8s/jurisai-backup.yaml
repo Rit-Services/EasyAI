@@ -46,9 +46,21 @@ spec:
       template:
         spec:
           restartPolicy: OnFailure
+          # Runs as the image's unprivileged `postgres` user (uid 70); fsGroup
+          # makes the backup volume writable for it.
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 70
+            runAsGroup: 70
+            fsGroup: 70
+            seccompProfile: { type: RuntimeDefault }
           containers:
             - name: pg-dump
-              image: postgres:16-alpine
+              image: postgres:16.15-alpine3.24
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities: { drop: ["ALL"] }
               env:
                 - name: PGHOST
                   value: jurisai-postgres
@@ -85,6 +97,8 @@ spec:
               volumeMounts:
                 - name: backup
                   mountPath: /backup
+                - name: tmp
+                  mountPath: /tmp
               resources:
                 requests: { cpu: "50m", memory: "128Mi" }
                 limits: { cpu: "500m", memory: "512Mi" }
@@ -92,3 +106,5 @@ spec:
             - name: backup
               persistentVolumeClaim:
                 claimName: jurisai-backup-pvc
+            - name: tmp
+              emptyDir: {}

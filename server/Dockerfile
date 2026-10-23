@@ -29,6 +29,11 @@ ENV NODE_ENV=production
 ENV PORT=4000
 EXPOSE 4000
 
+# Run as the image's built-in unprivileged user (uid 1000). /app stays
+# root-owned and read-only to it; the only writable path is the uploads volume,
+# made group-writable by the pod's fsGroup (see k8s manifests).
+USER node
+
 # Sync schema, seed the catalog (idempotent; demo users skipped in production),
 # encrypt any pre-existing plaintext (idempotent), then run the API.
 CMD ["sh", "-c", "npx prisma db push --skip-generate && npm run seed && node scripts/backfillEncryption.js && node index.js"]

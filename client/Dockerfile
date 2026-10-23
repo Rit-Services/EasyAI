@@ -15,9 +15,13 @@ COPY client ./client
 
 RUN cd client && npm run build
 
-# --- Serve the built SPA with nginx ---
-FROM nginx:alpine
+# --- Serve the built SPA with nginx, as a non-root user ---
+# nginx-unprivileged runs as uid 101 and keeps its pid/temp files in /tmp, so it
+# works with a read-only root filesystem. It still listens on port 80: the pod
+# sets the net.ipv4.ip_unprivileged_port_start sysctl (see k8s manifests).
+FROM nginxinc/nginx-unprivileged:1.30-alpine
 COPY client/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/client/dist /usr/share/nginx/html
+USER 101
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
