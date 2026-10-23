@@ -68,6 +68,7 @@ spec:
           imagePullPolicy: Always
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             capabilities: { drop: ["ALL"] }
           ports:
             - containerPort: 4000
@@ -88,6 +89,9 @@ spec:
           volumeMounts:
             - name: uploads
               mountPath: /app/uploads
+            # Writable scratch for the read-only root: npm/npx caches and temp files.
+            - { name: tmp, mountPath: /tmp }
+            - { name: home, mountPath: /home/node }
           readinessProbe:
             httpGet: { path: /api/health, port: 4000 }
             initialDelaySeconds: 20
@@ -103,6 +107,8 @@ spec:
         - name: uploads
           persistentVolumeClaim:
             claimName: jurisai-uploads-enc-pvc
+        - { name: tmp, emptyDir: {} }
+        - { name: home, emptyDir: {} }
 ---
 apiVersion: v1
 kind: Service

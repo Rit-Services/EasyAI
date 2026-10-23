@@ -73,9 +73,22 @@ spec:
       labels:
         app: jurisai-postgres
     spec:
+      # Runs directly as the image's `postgres` user (uid 70), which already owns
+      # the data directory, so the entrypoint never needs root. No fsGroup on
+      # purpose: it would make PGDATA group-writable and Postgres refuses to start
+      # unless the data directory is 0700/0750.
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 70
+        runAsGroup: 70
+        seccompProfile: { type: RuntimeDefault }
       containers:
         - name: postgres
           image: postgres:16.15-alpine3.24
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: ["ALL"] }
           ports:
             - containerPort: 5432
           env:
@@ -90,6 +103,9 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/lib/postgresql/data
+            # Writable scratch for the read-only root: the socket dir and temp files.
+            - { name: pg-run, mountPath: /var/run/postgresql }
+            - { name: tmp, mountPath: /tmp }
           readinessProbe:
             exec: { command: ["sh", "-c", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"] }
             initialDelaySeconds: 10
@@ -101,6 +117,8 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: jurisai-postgres-enc-pvc
+        - { name: pg-run, emptyDir: {} }
+        - { name: tmp, emptyDir: {} }
 ---
 apiVersion: v1
 kind: Service
@@ -174,6 +192,7 @@ spec:
           imagePullPolicy: Always
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
             capabilities: { drop: ["ALL"] }
           ports:
             - containerPort: 4000
@@ -196,6 +215,9 @@ spec:
           volumeMounts:
             - name: uploads
               mountPath: /app/uploads
+            # Writable scratch for the read-only root: npm/npx caches and temp files.
+            - { name: tmp, mountPath: /tmp }
+            - { name: home, mountPath: /home/node }
           readinessProbe:
             httpGet: { path: /api/health, port: 4000 }
             initialDelaySeconds: 20
@@ -211,6 +233,8 @@ spec:
         - name: uploads
           persistentVolumeClaim:
             claimName: jurisai-uploads-enc-pvc
+        - { name: tmp, emptyDir: {} }
+        - { name: home, emptyDir: {} }
 ---
 apiVersion: v1
 kind: Service
