@@ -170,7 +170,7 @@ spec:
             capabilities: { drop: ["ALL"] }
       containers:
         - name: server
-          image: ghcr.io/rit-services/jurisai-server:sha-21ff307e
+          image: ghcr.io/rit-services/jurisai-server:sha-e2691f41
           imagePullPolicy: Always
           securityContext:
             allowPrivilegeEscalation: false
@@ -250,7 +250,7 @@ spec:
           - { name: net.ipv4.ip_unprivileged_port_start, value: "80" }
       containers:
         - name: client
-          image: ghcr.io/rit-services/jurisai-client:sha-21ff307e
+          image: ghcr.io/rit-services/jurisai-client:sha-e2691f41
           imagePullPolicy: Always
           securityContext:
             runAsNonRoot: true
