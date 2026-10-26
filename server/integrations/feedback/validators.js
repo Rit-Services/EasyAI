@@ -20,7 +20,7 @@ const feedbackSchema = z.object({
       height: z.number().int().positive().max(20000),
     })
     .optional(),
-  meta: z.record(z.union([z.string(), z.number(), z.boolean()])).optional(),
+  meta: z.record(z.string(), z.union([z.string(), z.number(), z.boolean()])).optional(),
 });
 
 module.exports = { feedbackSchema };

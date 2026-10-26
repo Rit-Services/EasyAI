@@ -14,7 +14,7 @@ const registerSchema = z.object({
   // false/missing outright, so "not accepted" is a validation error, not a
   // silently-ignored field, matching the AVV's own "zwingender Abschluss"
   // (Section 5.1): an organisation cannot be created without acceptance.
-  avvAccepted: z.literal(true, { errorMap: () => ({ message: 'You must accept the Data Processing Agreement (AVV) to create an account' }) }),
+  avvAccepted: z.literal(true, { message: 'You must accept the Data Processing Agreement (AVV) to create an account' }),
 });
 
 const loginSchema = z.object({

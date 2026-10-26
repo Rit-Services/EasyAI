@@ -17,7 +17,7 @@ const createAiSystemSchema = z.object({
 const updateAiSystemSchema = createAiSystemSchema.partial();
 
 const classifySchema = z.object({
-  answers: z.record(z.any()),
+  answers: z.record(z.string(), z.any()),
 });
 
 module.exports = { createAiSystemSchema, updateAiSystemSchema, classifySchema };
