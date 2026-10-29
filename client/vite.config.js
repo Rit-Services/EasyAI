@@ -7,6 +7,9 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      // The law catalog (content/*.json at the repo root), shared with the
+      // server. Imported at build time so the prerendered pages carry it.
+      '@content': path.resolve(__dirname, '../content'),
       // Consume the screenshot-feedback plugin's React package straight from
       // source; Vite transpiles its TS/TSX. (The plugin lives at the repo root.)
       '@rit-services/feedback-react': path.resolve(__dirname, '../plugins/screenshot-feedback/react/src/index.ts'),

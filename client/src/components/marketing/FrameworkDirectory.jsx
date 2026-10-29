@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
 import { useLangStore } from '@/store/langStore';
-import { FRAMEWORK_DIRECTORY, TIER_LABELS } from '@/data/frameworkDirectory';
+import { LAW_DIRECTORY as FRAMEWORK_DIRECTORY, TIER_LABELS } from '@/data/catalog';
 
 const TIERS = [1, 2, 3];
 
-// The full 37-law catalogue: searchable and filterable by tier, grouped for
-// scanability. Real content, generated from the same source the app seeds
-// from, not a hand-picked highlight list.
+// The full law catalogue: searchable and filterable by tier, grouped for
+// scanability. Read at build time from the same content files the app seeds
+// from, not a hand-picked highlight list or a copy that can drift.
 export default function FrameworkDirectory() {
   const lang = useLangStore((s) => s.lang);
   const [q, setQ] = useState('');

@@ -5,35 +5,35 @@
     "requirements": {
       "Art.4": {
         "title": "KI-Kompetenz der Mitarbeitenden",
-        "guidanceText": "Sorgen Sie dafür, dass die Personen, die Ihre KI entwickeln oder nutzen, ausreichend geschult sind, um zu verstehen, was sie tut und wo sie fehlgehen kann. Halten Sie kurz fest, wer wann geschult wurde."
+        "guidanceText": "Ergreifen Sie Maßnahmen, damit die Personen, die Ihre KI entwickeln oder nutzen, einschließlich Auftragnehmern, die in Ihrem Auftrag arbeiten, verstehen, was sie tut und wo sie fehlgehen kann. Seit der Änderung von 2026 verlangt das Gesetz geeignete Maßnahmen (etwa eine kurze Schulung oder Einweisung), kein festes Niveau für jede Person. Das gilt für jedes KI-System, unabhängig von seiner Risikostufe. Halten Sie kurz fest, wer wann geschult wurde."
       },
       "Art.9": {
         "title": "Risikomanagementsystem",
-        "guidanceText": "Führen Sie für Hochrisiko-KI ein Risikomanagement über die gesamte Lebensdauer des Systems. Ermitteln Sie die Risiken für Gesundheit, Sicherheit und Grundrechte, legen Sie fest, wie Sie sie verringern, und überprüfen Sie das regelmäßig."
+        "guidanceText": "Führen Sie für Hochrisiko-KI ein Risikomanagement über die gesamte Lebensdauer des Systems. Ermitteln Sie die Risiken für Gesundheit, Sicherheit und Grundrechte, legen Sie fest, wie Sie sie verringern, und überprüfen Sie das regelmäßig. Frist für Hochrisiko-KI: 2. Dezember 2027 für eigenständige Systeme nach Anhang III; 2. August 2028 für KI in Produkten nach Anhang I."
       },
       "Art.10": {
         "title": "Daten und Daten-Governance",
-        "guidanceText": "Verwenden Sie Trainings- und Testdaten, die relevant und so weit wie vertretbar frei von Fehlern und Verzerrungen sind. Halten Sie fest, woher die Daten stammen und wie Sie ihre Qualität geprüft haben."
+        "guidanceText": "Verwenden Sie Trainings- und Testdaten, die relevant und so weit wie vertretbar frei von Fehlern und Verzerrungen sind. Halten Sie fest, woher die Daten stammen und wie Sie ihre Qualität geprüft haben. Frist für Hochrisiko-KI: 2. Dezember 2027 für eigenständige Systeme nach Anhang III; 2. August 2028 für KI in Produkten nach Anhang I."
       },
       "Art.11": {
         "title": "Technische Dokumentation",
-        "guidanceText": "Führen Sie eine technische Dokumentation, die zeigt, wie das System gebaut und getestet wurde, sodass eine Behörde die Einhaltung der Regeln prüfen könnte."
+        "guidanceText": "Führen Sie eine technische Dokumentation, die zeigt, wie das System gebaut und getestet wurde, sodass eine Behörde die Einhaltung der Regeln prüfen könnte. Frist für Hochrisiko-KI: 2. Dezember 2027 für eigenständige Systeme nach Anhang III; 2. August 2028 für KI in Produkten nach Anhang I."
       },
       "Art.13": {
         "title": "Transparenz für Nutzer",
-        "guidanceText": "Geben Sie den Personen, die das System bedienen, klare Anweisungen: was es tut, seine Grenzen und wie die Ergebnisse zu lesen sind. Stellen Sie sicher, dass sie die Ergebnisse verstehen können."
+        "guidanceText": "Geben Sie den Personen, die das System bedienen, klare Anweisungen: was es tut, seine Grenzen und wie die Ergebnisse zu lesen sind. Stellen Sie sicher, dass sie die Ergebnisse verstehen können. Frist für Hochrisiko-KI: 2. Dezember 2027 für eigenständige Systeme nach Anhang III; 2. August 2028 für KI in Produkten nach Anhang I."
       },
       "Art.14": {
         "title": "Menschliche Aufsicht",
-        "guidanceText": "Eine Person muss die KI verstehen, überwachen und bei Bedarf stoppen oder übersteuern können. Legen Sie fest, wer das ist und wie sie eingreifen kann."
+        "guidanceText": "Eine Person muss die KI verstehen, überwachen und bei Bedarf stoppen oder übersteuern können. Legen Sie fest, wer das ist und wie sie eingreifen kann. Frist für Hochrisiko-KI: 2. Dezember 2027 für eigenständige Systeme nach Anhang III; 2. August 2028 für KI in Produkten nach Anhang I."
       },
       "Art.15": {
         "title": "Genauigkeit, Robustheit und Sicherheit",
-        "guidanceText": "Prüfen Sie, ob das System für seinen Zweck genau und stabil genug ist, und schützen Sie es vor Fehlern, Missbrauch und Angriffen. Halten Sie Ihre Testergebnisse fest."
+        "guidanceText": "Prüfen Sie, ob das System für seinen Zweck genau und stabil genug ist, und schützen Sie es vor Fehlern, Missbrauch und Angriffen. Halten Sie Ihre Testergebnisse fest. Frist für Hochrisiko-KI: 2. Dezember 2027 für eigenständige Systeme nach Anhang III; 2. August 2028 für KI in Produkten nach Anhang I."
       },
       "Art.50": {
         "title": "Transparenz über den KI-Einsatz",
-        "guidanceText": "Informieren Sie Personen, wenn sie mit einer KI interagieren, und kennzeichnen Sie KI-erzeugte oder manipulierte Inhalte wie Chatbots, synthetische Medien und Deepfakes klar."
+        "guidanceText": "Informieren Sie Personen, wenn sie mit einer KI interagieren, und kennzeichnen Sie KI-erzeugte oder manipulierte Inhalte wie Chatbots, synthetische Medien und Deepfakes klar. Gilt seit dem 2. August 2026. Für Systeme, die vor diesem Datum in Verkehr gebracht wurden, ist die maschinenlesbare Kennzeichnung KI-generierter Inhalte (Art. 50 Abs. 2) ab dem 2. Dezember 2026 Pflicht."
       }
     },
     "templates": {
@@ -58,7 +58,7 @@
       },
       "ai_high_risk_obligations": {
         "name": "Pflichten für Hochrisiko-KI",
-        "description": "Der volle Pflichtenkatalog, der gilt, wenn ein KI-System als hochriskant eingestuft ist.",
+        "description": "Der volle Pflichtenkatalog, der gilt, wenn ein KI-System als hochriskant eingestuft ist. Fristen: 2. Dezember 2027 für eigenständige Systeme nach Anhang III, 2. August 2028 für KI in Produkten nach Anhang I (durch den Digital-Omnibus vom 2. August 2026 verschoben).",
         "items": {
           "1": { "title": "Technische Dokumentation führen", "guidanceText": "Bestätigen Sie, dass Sie eine Dokumentation führen, die zeigt, wie das System gebaut und getestet wurde." },
           "2": { "title": "Klare Anweisungen für Betreiber bereitstellen", "guidanceText": "Beschreiben Sie die Anweisungen und Informationen, die Sie den Personen geben, die das System betreiben." },
@@ -69,7 +69,7 @@
       },
       "ai_transparency_obligations": {
         "name": "Transparenzpflichten",
-        "description": "Pflichten für KI, die mit Menschen interagiert oder Inhalte erzeugt (Systeme mit begrenztem Risiko).",
+        "description": "Pflichten für KI, die mit Menschen interagiert oder Inhalte erzeugt (Systeme mit begrenztem Risiko). Gilt seit dem 2. August 2026.",
         "items": {
           "1": { "title": "Nutzer auf die KI-Interaktion hinweisen", "guidanceText": "Beschreiben Sie, wie Sie Menschen deutlich machen, dass sie es mit einer KI zu tun haben, zum Beispiel ein Hinweis im Chatbot." },
           "2": { "title": "KI-erzeugte Inhalte kennzeichnen", "guidanceText": "Erläutern Sie, wie Sie Inhalte kennzeichnen, die die KI erzeugt oder verändert, einschließlich synthetischer Medien." }
@@ -77,7 +77,7 @@
       },
       "ai_prohibited_check": {
         "name": "Prüfung verbotener Praktiken",
-        "description": "Dieses System könnte unter eine verbotene KI-Praktik fallen. Prüfen und dokumentieren Sie dies dringend.",
+        "description": "Dieses System könnte unter eine verbotene KI-Praktik fallen. Prüfen und dokumentieren Sie dies dringend. Die Verbote für KI, die Darstellungen sexuellen Kindesmissbrauchs oder nicht einvernehmliche intime Bilder erzeugt, gelten ab dem 2. Dezember 2026.",
         "items": {
           "1": { "title": "Bestätigen, dass das System keine verbotene Praktik ist", "guidanceText": "Die Einstufung legt nahe, dass dieses System nach Art. 5 verboten sein könnte, etwa Social Scoring oder bestimmte biometrische Anwendungen. Dokumentieren Sie Ihre Prüfung und holen Sie vor jeder Nutzung Rechtsrat ein." }
         }

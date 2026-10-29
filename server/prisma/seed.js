@@ -10,7 +10,8 @@ const prisma = new PrismaClient();
 const contentDir = path.join(__dirname, '..', '..', 'content');
 const readJson = (name) => JSON.parse(fs.readFileSync(path.join(contentDir, name), 'utf8'));
 
-// Date the catalog content was last reviewed (shown per framework).
+// Date the catalog content was last reviewed (shown per framework). A
+// framework can carry its own `lastReviewedAt` when it was re-checked later.
 const REVIEWED_AT = new Date('2026-08-24T00:00:00.000Z');
 
 async function seedFrameworks() {
@@ -22,7 +23,8 @@ async function seedFrameworks() {
       category: f.category, reference: f.reference, regulator: f.regulator,
       lawReferenceUrl: f.lawReferenceUrl, shortDescription: f.shortDescription,
       appliesTo: f.appliesTo, keySections: f.keySections, status: f.status || 'published',
-      sourceNote, lastReviewedAt: REVIEWED_AT, sortOrder: f.sortOrder || 0,
+      sourceNote, lastReviewedAt: f.lastReviewedAt ? new Date(f.lastReviewedAt) : REVIEWED_AT,
+      sortOrder: f.sortOrder || 0,
     };
     await prisma.framework.upsert({
       where: { key: f.key },
@@ -143,23 +145,29 @@ async function seedGdprActionPlan() {
     },
   });
 
-  const existingItems = await prisma.templateItem.count({ where: { checklistTemplateId: template.id } });
-  if (existingItems === 0) {
-    let i = 0;
-    for (const o of profile.obligations || []) {
-      await prisma.templateItem.create({
-        data: {
-          checklistTemplateId: template.id,
-          title: `${o.title} (${o.law})`,
-          guidanceText: `${o.lawExplanation}\n\nWhat to do: ${o.solution}`,
-          inputType: 'longtext',
-          isRequired: (o.severity || 'mandatory') === 'mandatory',
-          sortOrder: i,
-          metadata: { obligationId: o.id },
-        },
-      });
-      i += 1;
-    }
+  // Add an item for every obligation the template does not have yet (matched by
+  // obligationId), so obligations added to the profile later reach existing
+  // installs too. Existing items are never deleted: responses reference them.
+  const existingItems = await prisma.templateItem.findMany({
+    where: { checklistTemplateId: template.id },
+    select: { metadata: true, sortOrder: true },
+  });
+  const present = new Set(existingItems.map((it) => it.metadata?.obligationId).filter(Boolean));
+  let nextSort = existingItems.reduce((max, it) => Math.max(max, it.sortOrder + 1), 0);
+  for (const o of profile.obligations || []) {
+    if (present.has(o.id)) continue;
+    await prisma.templateItem.create({
+      data: {
+        checklistTemplateId: template.id,
+        title: `${o.title} (${o.law})`,
+        guidanceText: `${o.lawExplanation}\n\nWhat to do: ${o.solution}`,
+        inputType: 'longtext',
+        isRequired: (o.severity || 'mandatory') === 'mandatory',
+        sortOrder: nextSort,
+        metadata: { obligationId: o.id },
+      },
+    });
+    nextSort += 1;
   }
   console.log(`seeded GDPR & DPA action plan (${(profile.obligations || []).length} items)`);
 }

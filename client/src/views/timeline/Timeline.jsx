@@ -5,7 +5,7 @@ import { Download, ClipboardCheck, Landmark, ChevronRight } from 'lucide-react';
 import { assessmentApi } from '@/apis/assessmentApi';
 import { useT } from '@/hooks/useT';
 import { SkeletonPage, ErrorState, Card } from '@/components/ui/Ui';
-import { COMPLIANCE_MILESTONES } from '@/data/complianceDates';
+import { MILESTONES, lawShortName } from '@/data/catalog';
 
 const FILTERS = ['all', 'upcoming', 'regulatory', 'reviews'];
 
@@ -32,13 +32,13 @@ export default function Timeline() {
   // Merge curated regulatory milestones with this org's assessment review dates
   // into one chronological list.
   const events = useMemo(() => {
-    const milestones = COMPLIANCE_MILESTONES.map((m) => ({
+    const milestones = MILESTONES.map((m) => ({
       key: `m-${m.id}`,
       kind: 'milestone',
       date: m.date,
       ts: new Date(m.date).getTime(),
       title: m.title[lang] || m.title.en,
-      framework: m.framework[lang] || m.framework.en,
+      framework: lawShortName(m.frameworkKey, lang),
       frameworkKey: m.frameworkKey,
     }));
     const reviews = (assessments || [])

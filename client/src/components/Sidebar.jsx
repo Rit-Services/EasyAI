@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Scale, Cpu, ClipboardCheck, BookOpen, FileText,
   Bell, ScrollText, Settings, ShieldCheck, HelpCircle, MessagesSquare,
-  ChevronsLeft, ChevronsRight, Megaphone, CalendarClock,
+  ChevronsLeft, ChevronsRight, Megaphone, CalendarClock, Newspaper,
 } from 'lucide-react';
 import { useFeedback } from '@rit-services/feedback-react';
 import { useAuth } from '@/hooks/useAuth';
@@ -20,6 +20,7 @@ const NAV = [
   { to: '/documents', label: 'nav.documents', Icon: FileText },
   { section: 'section.explore' },
   { to: '/law-explorer', label: 'nav.lawExplorer', Icon: Scale },
+  { to: '/regulatory-news', label: 'nav.news', Icon: Newspaper },
   { to: '/community', label: 'nav.community', Icon: MessagesSquare },
   { to: '/faq', label: 'nav.faq', Icon: HelpCircle },
   { section: 'section.account' },

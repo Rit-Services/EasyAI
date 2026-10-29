@@ -4,6 +4,7 @@ const { recordAudit } = require('../../utils/audit');
 const {
   canSeeThread, canModerate, setVote, publicPost, authorInclude,
 } = require('../../services/community/communityService');
+const { notifyNewCommunityPost } = require('../../services/community/moderationNotice');
 
 // POST /api/community/threads/:id/posts  { body, parentPostId? }
 async function create(req, res) {
@@ -35,6 +36,7 @@ async function create(req, res) {
     data: { replyCount: { increment: 1 }, lastActivityAt: new Date() },
   });
   await recordAudit({ req, action: 'thread.replied', entityType: 'Thread', entityId: thread.id });
+  notifyNewCommunityPost({ kind: 'reply', thread, body, user: req.user });
   res.status(201).json({ post: publicPost(post, { canModerate: true }) });
 }
 

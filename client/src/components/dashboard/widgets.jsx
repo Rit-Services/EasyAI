@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Card, Progress, Chip } from '@/components/ui/Ui';
 import { RISK_CHIP, riskLabel, severityLabel, formatDate, fromNow } from '@/utils/format';
 import { useT } from '@/hooks/useT';
+import { NEWS, formatContentDate } from '@/data/catalog';
 
 // Large compliance standing card with a ruled "seal" look.
 export function ComplianceStandingCard({ overall, counts }) {
@@ -81,6 +82,26 @@ export function UpcomingReviewsWidget({ upcoming }) {
           ))}
         </div>
       )}
+    </Card>
+  );
+}
+
+// The three latest regulatory news headlines (static catalog content, the same
+// for every organisation), each linking to its entry on the news page.
+export function RegulatoryNewsWidget() {
+  const { t, lang } = useT();
+  return (
+    <Card title={t('w.news')} data-testid="widget-news"
+      action={<Link to="/regulatory-news" className="small">{t('w.newsAll')}</Link>}>
+      <div className="stack" style={{ gap: 0 }}>
+        {NEWS.slice(0, 3).map((n) => (
+          <Link key={n.id} to={`/regulatory-news#${n.id}`} className="row-between"
+            style={{ gap: 14, padding: '9px 0', borderBottom: '1px solid var(--hairline-2)', color: 'var(--ink)' }}>
+            <span style={{ fontSize: 13 }}>{n.title[lang] || n.title.en}</span>
+            <span className="muted small" style={{ whiteSpace: 'nowrap' }}>{formatContentDate(n.date, lang)}</span>
+          </Link>
+        ))}
+      </div>
     </Card>
   );
 }

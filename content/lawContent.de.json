@@ -18,12 +18,13 @@
       "Allgemeine Anwendung, einschließlich der Transparenzpflichten (Art. 50): 2. August 2026.",
       "Neue Verbote für KI-generiertes Material des sexuellen Kindesmissbrauchs und nicht einvernehmliche intime Aufnahmen sowie maschinenlesbare Kennzeichnung KI-generierter Inhalte (Art. 50 Abs. 2): 2. Dezember 2026.",
       "Reallabore in jedem Mitgliedstaat eingerichtet: 2. August 2027.",
-      "Regeln für eigenständige Hochrisiko-Systeme nach Anhang III: 2. Dezember 2027 (durch den Digital Omnibus vom 2. August 2026 verschoben).",
+      "Regeln für eigenständige Hochrisiko-Systeme nach Anhang III: 2. Dezember 2027 (vorher 2. August 2026; durch den Digital-Omnibus verschoben).",
       "Regeln für in regulierte Produkte eingebettete Hochrisiko-KI (Anhang I, z. B. Medizinprodukte, Maschinen, Spielzeug): 2. August 2028.",
       "Bestehende KI-Systeme öffentlicher Stellen: 2. August 2030."
     ],
     "penalties": "Bis zu 35 Millionen Euro oder 7 % des weltweiten Jahresumsatzes bei verbotenen Praktiken; bis zu 15 Millionen Euro oder 3 % bei den meisten anderen Verstößen.",
-    "regulator": "Bundesnetzagentur (BNetzA) als Leitbehörde, mit BaFin, BfArM und dem EU-Büro für KI"
+    "regulator": "Bundesnetzagentur (BNetzA) als Leitbehörde, mit BaFin, BfArM und dem EU-Büro für KI",
+    "shortName": "KI-Verordnung"
   },
   "gdpr": {
     "name": "Datenschutz-Grundverordnung (DSGVO)",
@@ -124,32 +125,37 @@
   "pld": {
     "name": "Produkthaftungsrichtlinie (neu)",
     "shortDescription": "Aktualisiert die Haftungsregeln, sodass fehlerhafte Software und KI klar erfasst sind und Geschädigte leichter Schadensersatz verlangen können.",
-    "appliesTo": "Hersteller und Importeure von KI-gestützten Produkten und Software. Deutschland muss sie bis Dezember 2026 umsetzen.",
+    "appliesTo": "Hersteller und Importeure von KI-gestützten Produkten und Software. In Deutschland gilt sie über das neue Produkthaftungsgesetz ab 9. Dezember 2026.",
     "whatYouMustDo": [
       "Behandeln Sie Software und KI als Produkte, die fehlerhaft sein können, und bewahren Sie Nachweise zu Sicherheit und Tests auf.",
       "Seien Sie bereit, technische Informationen offenzulegen, wenn jemand einen Schaden durch Ihr KI-Produkt geltend macht.",
       "Prüfen Sie Versicherung und Verträge auf KI-bezogene Haftung."
     ],
     "keyDates": [
-      "In Kraft seit 9. Dezember 2024; Deutschland muss sie bis 9. Dezember 2026 in nationales Recht umsetzen."
+      "Auf EU-Ebene in Kraft seit 9. Dezember 2024.",
+      "Deutschland hat das Umsetzungsgesetz (neues Produkthaftungsgesetz) im Oktober 2026 beschlossen; es gilt ab 9. Dezember 2026."
     ],
     "penalties": "Zivilrechtliche Haftung: Sie müssen ggf. Schadensersatz für ein fehlerhaftes Produkt zahlen.",
-    "regulator": "Zivilgerichte; Umsetzung durch das Bundesministerium der Justiz"
+    "regulator": "Zivilgerichte; Umsetzung durch das Bundesministerium der Justiz",
+    "shortName": "Produkthaftungsrichtlinie"
   },
   "machinery": {
     "name": "Maschinenverordnung",
-    "shortDescription": "Legt Sicherheitsregeln für KI-gestützte Maschinen und Roboter fest und verlangt ausdrücklich eine Risikobewertung für selbstlernendes Verhalten.",
+    "shortDescription": "Legt Sicherheitsregeln für Maschinen und Roboter fest, auch KI-gestützte, und verlangt eine Risikobewertung für selbstlernendes Verhalten. Seit der Änderung der KI-Verordnung 2026 wird KI in Maschinen über diese Verordnung geregelt statt über die Hochrisiko-Regeln der KI-Verordnung.",
     "appliesTo": "Hersteller von Industrie-KI, Robotik und automatisierten Produktionssystemen. Gilt ab Januar 2027.",
     "whatYouMustDo": [
       "Führen Sie eine Sicherheitsbewertung für Ihre Maschine durch, auch für selbstlernendes Verhalten.",
       "Bauen Sie Sicherheitsfunktionen ein und führen Sie technische Dokumentation.",
-      "Führen Sie die Konformitätsbewertung und CE-Kennzeichnung vor dem Verkauf durch."
+      "Führen Sie die Konformitätsbewertung und CE-Kennzeichnung vor dem Verkauf durch.",
+      "Verfolgen Sie die delegierten Rechtsakte der EU-Kommission, die KI-spezifische Anforderungen für Maschinen ergänzen."
     ],
     "keyDates": [
-      "Gilt ab 20. Januar 2027."
+      "Gilt ab 20. Januar 2027.",
+      "KI-spezifische Anforderungen für Maschinen ergänzt die EU-Kommission über delegierte Rechtsakte; sie sollen bis zum 2. August 2028 gelten (Digital-Omnibus, Verordnung (EU) 2026/1744)."
     ],
     "penalties": "Nationale Marktüberwachungsmaßnahmen, Bußgelder und Marktrücknahme.",
-    "regulator": "Marktüberwachungsbehörden der Länder, mit Hinweisen der BAuA"
+    "regulator": "Marktüberwachungsbehörden der Länder, mit Hinweisen der BAuA",
+    "shortName": "Maschinenverordnung"
   },
   "dsa": {
     "name": "Gesetz über digitale Dienste (DSA)",
@@ -200,16 +206,17 @@
   "ki_mig": {
     "name": "KI-MIG (deutsches KI-Marktüberwachungsgesetz)",
     "shortDescription": "Das deutsche Gesetz, das die EU-KI-Verordnung in die Praxis umsetzt. Es benennt die zuständigen deutschen Behörden, regelt Bußgeldverfahren und sieht Reallabore vor.",
-    "appliesTo": "Alle Unternehmen, die in Deutschland der EU-KI-Verordnung unterliegen. Noch im Entwurf (Stand 2026).",
+    "appliesTo": "Alle Unternehmen, die in Deutschland der EU-KI-Verordnung unterliegen.",
     "whatYouMustDo": [
       "Klären Sie, welche deutsche Behörde Ihre KI-Nutzung beaufsichtigt (oft die Bundesnetzagentur).",
       "Bereiten Sie sich auf Marktüberwachungsprüfungen nach der EU-KI-Verordnung vor.",
       "Erwägen Sie ein Reallabor, wenn Sie neue KI entwickeln."
     ],
     "keyDates": [
-      "Regierungsentwurf am 10. Februar 2026 beschlossen; noch im parlamentarischen Verfahren."
+      "Vom Bundestag am 11. Juni 2026 beschlossen, vom Bundesrat am 10. Juli 2026 gebilligt.",
+      "In Kraft seit 29. Juli 2026 (BGBl. 2026 I Nr. 223)."
     ],
-    "penalties": "Folgt nach Inkrafttreten den Bußgeldstufen der EU-KI-Verordnung.",
+    "penalties": "Bußgelder folgen den Stufen der EU-KI-Verordnung; das KI-MIG regelt, wie deutsche Behörden sie verhängen.",
     "regulator": "Benennt BNetzA als Leitbehörde, zudem BaFin, BfArM und BAuA"
   },
   "bdsg": {
@@ -481,16 +488,19 @@
   },
   "prodhaftg": {
     "name": "Produkthaftungsgesetz (ProdHaftG)",
-    "shortDescription": "Gibt eine verschuldensunabhängige Haftung für Schäden durch fehlerhafte Produkte, auch KI-integrierte. Es wird nach Umsetzung der neuen EU-Richtlinie bis Dezember 2026 erweitert.",
+    "shortDescription": "Gibt eine verschuldensunabhängige Haftung für Schäden durch fehlerhafte Produkte, auch KI-integrierte. Eine Neufassung gilt ab 9. Dezember 2026 und erfasst auch Software und KI als Produkte.",
     "appliesTo": "Hersteller und Händler von KI-integrierten Produkten.",
     "whatYouMustDo": [
       "Behandeln Sie KI-integrierte Produkte als möglicherweise fehlerhaft und bewahren Sie Sicherheitsnachweise auf.",
-      "Bereiten Sie sich auf die weiteren Regeln der neuen EU-Richtlinie bis Dezember 2026 vor."
+      "Behandeln Sie ab 9. Dezember 2026 auch Software und KI selbst als Produkte: Bewahren Sie Test- und Sicherheitsnachweise auf und seien Sie bereit, technische Informationen offenzulegen, wenn jemand Ansprüche geltend macht.",
+      "Prüfen Sie Versicherung und Verträge: Das neue Gesetz kennt keine Haftungshöchstgrenze mehr."
     ],
     "keyDates": [
-      "In Kraft; eine Aktualisierung ist bis Dezember 2026 fällig."
+      "Geltende Fassung in Kraft seit 1. Januar 1990.",
+      "Neufassung vom Bundestag am 8. Oktober 2026 beschlossen, Bundesrat am 16. Oktober 2026 abgeschlossen; sie gilt ab 9. Dezember 2026.",
+      "Für Produkte, die bis zum 8. Dezember 2026 in Verkehr gebracht werden, gilt weiter das alte Recht."
     ],
-    "penalties": "Verschuldensunabhängige Haftung: Schadensersatz für ein fehlerhaftes Produkt.",
+    "penalties": "Verschuldensunabhängige Haftung: Schadensersatz für ein fehlerhaftes Produkt. Ab 9. Dezember 2026 gibt es keine Höchstgrenze mehr (bisher 85 Mio. EUR bei Personenschäden) und keine Selbstbeteiligung von 500 EUR bei Sachschäden.",
     "regulator": "Zivilgerichte und das Bundesministerium der Justiz"
   },
   "ehds": {
@@ -544,13 +554,13 @@
     "shortDescription": "Ein geplantes deutsches Gesetz, das eigene Straftatbestände für schädliche Deepfakes und digitale Gewalt schaffen würde. Noch nicht in Kraft, also beobachten statt handeln.",
     "appliesTo": "Alle, die KI-erzeugte synthetische Medien erstellen oder teilen, die Menschen schaden könnten.",
     "whatYouMustDo": [
-      "Beobachten Sie den Gesetzgebungsstand und bereiten Sie Richtlinien gegen schädliche Deepfakes vor."
+      "Verfolgen Sie das Gesetz im parlamentarischen Verfahren und bereiten Sie Richtlinien gegen schädliche Deepfakes vor."
     ],
     "keyDates": [
-      "Noch nicht in Kraft; in Vorbereitung 2026."
+      "Vom Bundeskabinett am 7. Oktober 2026 beschlossen; nun im Bundestag und Bundesrat. Noch nicht in Kraft."
     ],
     "penalties": "Noch nicht festgelegt; voraussichtlich strafrechtlich.",
-    "regulator": "Bundesministerium der Justiz (geplant); Staatsanwaltschaften"
+    "regulator": "Bundesministerium der Justiz; Staatsanwaltschaften"
   },
   "besch_datengesetz": {
     "name": "Beschäftigtendatengesetz (Entwurf)",

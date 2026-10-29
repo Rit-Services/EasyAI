@@ -13,7 +13,8 @@
     "appliesTo": "Any company that builds, sells, or uses an AI system that affects people in the EU. Extra rules apply to providers of general-purpose AI models.",
     "keySections": "Art. 5 (banned uses, incl. AI-generated CSAM and non-consensual intimate imagery), Art. 6 and Annex III (high-risk), Art. 9 to 15 (requirements), Art. 50 (transparency and marking), Art. 51 to 56 (general-purpose AI)",
     "sortOrder": 1,
-    "sourceNote": "Regulation (EU) 2024/1689 as amended by Regulation (EU) 2026/1744 (Digital Omnibus on AI), in force 27 July 2026. Dates reflect the deferred high-risk deadlines. Verify against the Official Journal text before relying on this for legal advice."
+    "sourceNote": "Regulation (EU) 2024/1689 as amended by Regulation (EU) 2026/1744 (Digital Omnibus on AI), in force 27 July 2026. Dates reflect the deferred high-risk deadlines. Verify against the Official Journal text before relying on this for legal advice.",
+    "lastReviewedAt": "2026-10-29"
   },
   {
     "key": "gdpr",
@@ -116,9 +117,10 @@
     "regulator": "Civil courts, transposed by the Federal Ministry of Justice",
     "lawReferenceUrl": "https://eur-lex.europa.eu/eli/dir/2024/2853/oj",
     "shortDescription": "Updates liability rules so that defective software and AI are clearly covered, and makes it easier for harmed people to claim compensation.",
-    "appliesTo": "Makers and importers of AI-powered products and software. Germany must adopt it by December 2026.",
+    "appliesTo": "Makers and importers of AI-powered products and software. In Germany it applies through the new Product Liability Act from 9 December 2026.",
     "keySections": "Art. 4 (software and AI), Art. 7 (defect), Art. 9 to 10 (proof and disclosure)",
-    "sortOrder": 8
+    "sortOrder": 8,
+    "lastReviewedAt": "2026-10-29"
   },
   {
     "key": "machinery",
@@ -130,10 +132,11 @@
     "reference": "Regulation (EU) 2023/1230",
     "regulator": "State market-surveillance authorities, with BAuA guidance",
     "lawReferenceUrl": "https://eur-lex.europa.eu/eli/reg/2023/1230/oj",
-    "shortDescription": "Sets safety rules for AI-powered machines and robots, and specifically requires a risk assessment for self-learning behaviour.",
+    "shortDescription": "Sets safety rules for machines and robots, including AI-powered ones, and requires a risk assessment for self-learning behaviour. Since the 2026 AI Act amendment, AI in machinery is regulated through this regulation rather than the AI Act's high-risk rules.",
     "appliesTo": "Makers of industrial AI, robotics, and automated production systems. Applies from January 2027.",
-    "keySections": "Annex III (health and safety, including self-evolving AI), Art. 6 (high-risk machinery)",
-    "sortOrder": 9
+    "keySections": "Annex III (health and safety, including self-evolving AI), Art. 6 (high-risk machinery); AI Act Annex I, Section B (since 2026)",
+    "sortOrder": 9,
+    "lastReviewedAt": "2026-10-29"
   },
   {
     "key": "dsa",
@@ -187,14 +190,14 @@
     "tier": 2,
     "jurisdiction": "DE",
     "category": "ai",
-    "reference": "Regierungsentwurf 2026 (draft)",
-    "status": "draft",
+    "reference": "BGBl. 2026 I Nr. 223",
     "regulator": "Names BNetzA as lead, plus BaFin, BfArM and BAuA",
-    "lawReferenceUrl": "https://www.bmds.bund.de",
+    "lawReferenceUrl": "https://www.gesetze-im-internet.de/ki-mig/",
     "shortDescription": "The German law that puts the EU AI Act into practice. It names which German authorities supervise AI, sets penalty procedures, and provides regulatory sandboxes.",
-    "appliesTo": "All companies subject to the EU AI Act operating in Germany. Still a draft as of 2026.",
+    "appliesTo": "All companies subject to the EU AI Act operating in Germany.",
     "keySections": "Authority designation, market-surveillance powers, penalty procedure, sandbox rules",
-    "sortOrder": 13
+    "sortOrder": 13,
+    "lastReviewedAt": "2026-10-29"
   },
   {
     "key": "bdsg",
@@ -476,10 +479,11 @@
     "reference": "Produkthaftungsgesetz",
     "regulator": "Civil courts and the Federal Ministry of Justice",
     "lawReferenceUrl": "https://www.gesetze-im-internet.de/prodhaftg/",
-    "shortDescription": "Gives no-fault liability for damage caused by defective products, including AI-integrated goods. It will be widened once the new EU directive is adopted by December 2026.",
+    "shortDescription": "Gives no-fault liability for damage caused by defective products, including AI-integrated goods. A new version applies from 9 December 2026 and also counts software and AI as products.",
     "appliesTo": "Makers and distributors of AI-integrated products.",
     "keySections": "Section 1 (strict liability), Section 3 (defect), Section 4 (producer)",
-    "sortOrder": 32
+    "sortOrder": 32,
+    "lastReviewedAt": "2026-10-29"
   },
   {
     "key": "ehds",
@@ -534,13 +538,14 @@
     "tier": 2,
     "jurisdiction": "DE",
     "category": "criminal",
-    "reference": "BMJ legislative initiative",
+    "reference": "Government bill against digital violence (cabinet decision of 7 October 2026)",
     "status": "draft",
-    "regulator": "Federal Ministry of Justice (proposed); public prosecutors",
+    "regulator": "Federal Ministry of Justice; public prosecutors",
     "shortDescription": "A planned German law that would create dedicated criminal offences for harmful deepfakes and digital violence. It is not yet in force, so watch it rather than act on it.",
     "appliesTo": "Anyone creating or sharing AI-generated synthetic media that could harm people.",
-    "keySections": "Proposed additions to the Criminal Code (StGB)",
-    "sortOrder": 36
+    "keySections": "Proposed new section 201b of the Criminal Code (StGB): violating personal rights through deceptive content",
+    "sortOrder": 36,
+    "lastReviewedAt": "2026-10-29"
   },
   {
     "key": "besch_datengesetz",

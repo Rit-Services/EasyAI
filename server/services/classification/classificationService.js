@@ -56,7 +56,7 @@ async function classify(questionnaireKey, answers, lang = 'en') {
   }
   return {
     riskCategory: 'minimal',
-    explanation: localizeExplanation('minimal', lang, 'No higher-risk criteria matched, so this system is treated as minimal risk.'),
+    explanation: localizeExplanation('minimal', lang, 'No higher-risk criteria matched, so this system is treated as minimal risk. One duty still applies to every AI system: take suitable measures so the people who build or use it have enough AI literacy (Art. 4).'),
   };
 }
 

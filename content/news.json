@@ -1,0 +1,109 @@
+[
+  {
+    "id": "2026-10-product-liability-act",
+    "date": "2026-10-16",
+    "frameworkKeys": [
+      "prodhaftg",
+      "pld"
+    ],
+    "title": {
+      "en": "New Product Liability Act passed: software and AI count as products from 9 December 2026",
+      "de": "Neues Produkthaftungsgesetz beschlossen: Software und KI gelten ab 9. Dezember 2026 als Produkte"
+    },
+    "summary": {
+      "en": "The Bundesrat cleared Germany's new Product Liability Act on 16 October 2026, after the Bundestag passed it on 8 October. It implements the EU Product Liability Directive and applies from 9 December 2026. Software, including AI, then counts as a product, and the previous liability cap no longer applies. Products placed on the market before that date stay under the old rules.",
+      "de": "Der Bundesrat hat das neue Produkthaftungsgesetz am 16. Oktober 2026 abgeschlossen, nachdem der Bundestag es am 8. Oktober beschlossen hatte. Es setzt die EU-Produkthaftungsrichtlinie um und gilt ab 9. Dezember 2026. Software, einschließlich KI, gilt dann als Produkt, und die bisherige Haftungshöchstgrenze entfällt. Für Produkte, die vorher in Verkehr gebracht wurden, gilt weiter das alte Recht."
+    },
+    "sources": [
+      {
+        "label": "Bundesregierung: Im Bundesrat – Produkthaftungsrecht",
+        "url": "https://www.bundesregierung.de/breg-de/aktuelles/produkthaftung-digitalisierung-ki-2399966"
+      },
+      {
+        "label": "IHK Frankfurt: Modernisierung des Produkthaftungsrechts beschlossen",
+        "url": "https://www.frankfurt-main.ihk.de/recht/recht-und-steuern-aktuell/modernisierung-des-produkthaftungsrechts-beschlossen-7199032"
+      }
+    ]
+  },
+  {
+    "id": "2026-10-digital-violence-bill",
+    "date": "2026-10-07",
+    "frameworkKeys": [
+      "deepfake_law"
+    ],
+    "title": {
+      "en": "Cabinet approves bill against digital violence, including a new deepfake offence",
+      "de": "Kabinett beschließt Gesetzentwurf gegen digitale Gewalt mit neuem Deepfake-Straftatbestand"
+    },
+    "summary": {
+      "en": "The federal cabinet approved the government bill against digital violence on 7 October 2026. At its core is a proposed new section 201b of the Criminal Code that would make it an offence to violate someone's personal rights with deceptive content such as deepfakes. The bill now goes to the Bundestag and Bundesrat and is not yet in force.",
+      "de": "Das Bundeskabinett hat den Regierungsentwurf gegen digitale Gewalt am 7. Oktober 2026 beschlossen. Kern ist ein neuer § 201b StGB, der die Verletzung von Persönlichkeitsrechten durch täuschende Inhalte wie Deepfakes unter Strafe stellen soll. Der Entwurf geht nun an Bundestag und Bundesrat und ist noch nicht in Kraft."
+    },
+    "sources": [
+      {
+        "label": "ms-aktuell: Kabinett verschärft Strafrecht",
+        "url": "https://ms-aktuell.de/welt/digitale-gewalt-gesetz-07-10-2026/"
+      },
+      {
+        "label": "LTO: Schutz gegen digitale Gewalt",
+        "url": "https://www.lto.de/recht/nachrichten/n/entwurf-bmjv-verschaerfungen-stgb-strafrecht-schutz-gegen-digitale-gewalt"
+      }
+    ]
+  },
+  {
+    "id": "2026-07-ki-mig-in-force",
+    "date": "2026-07-29",
+    "frameworkKeys": [
+      "ki_mig",
+      "eu_ai_act"
+    ],
+    "title": {
+      "en": "KI-MIG in force: the Federal Network Agency is Germany's AI supervisor",
+      "de": "KI-MIG in Kraft: Die Bundesnetzagentur ist Deutschlands KI-Aufsicht"
+    },
+    "summary": {
+      "en": "Germany's law implementing the EU AI Act came into force on 29 July 2026 (Federal Law Gazette 2026 I No. 223). It makes the Federal Network Agency (BNetzA) the central market surveillance authority for AI, sets out how fines are imposed, and provides for AI regulatory sandboxes. Companies covered by the EU AI Act should check which German authority supervises their AI use.",
+      "de": "Das deutsche Durchführungsgesetz zur EU-KI-Verordnung ist am 29. Juli 2026 in Kraft getreten (BGBl. 2026 I Nr. 223). Es macht die Bundesnetzagentur zur zentralen Marktüberwachungsbehörde für KI, regelt die Verhängung von Bußgeldern und sieht KI-Reallabore vor. Unternehmen, die unter die KI-Verordnung fallen, sollten prüfen, welche deutsche Behörde ihre KI-Nutzung beaufsichtigt."
+    },
+    "sources": [
+      {
+        "label": "KI-MIG on gesetze-im-internet.de",
+        "url": "https://www.gesetze-im-internet.de/ki-mig/BJNR0DF0B0026.html"
+      },
+      {
+        "label": "LTO: Das Gesetz hinter dem AI Act tritt in Kraft",
+        "url": "https://www.lto.de/recht/hintergruende/h/kuenstliche-intelligenz-ai-act-ki-mg-aufsicht-bussgeld"
+      }
+    ]
+  },
+  {
+    "id": "2026-07-ai-act-digital-omnibus",
+    "date": "2026-07-27",
+    "frameworkKeys": [
+      "eu_ai_act"
+    ],
+    "title": {
+      "en": "EU AI Act amended: high-risk deadlines moved to December 2027 and August 2028",
+      "de": "EU-KI-Verordnung geändert: Hochrisiko-Fristen auf Dezember 2027 und August 2028 verschoben"
+    },
+    "summary": {
+      "en": "The Digital Omnibus on AI (Regulation (EU) 2026/1744) came into force on 27 July 2026. High-risk rules for stand-alone Annex III systems now apply from 2 December 2027 instead of 2 August 2026, and rules for AI built into regulated products from 2 August 2028. The transparency duties (Art. 50) were not delayed and have applied since 2 August 2026. New bans on AI-generated child sexual abuse material and non-consensual intimate imagery apply from 2 December 2026.",
+      "de": "Der Digital-Omnibus zur KI (Verordnung (EU) 2026/1744) ist am 27. Juli 2026 in Kraft getreten. Hochrisiko-Regeln für eigenständige Systeme nach Anhang III gelten nun ab 2. Dezember 2027 statt ab 2. August 2026, Regeln für KI in regulierten Produkten ab 2. August 2028. Die Transparenzpflichten (Art. 50) wurden nicht verschoben und gelten seit 2. August 2026. Neue Verbote für KI-generierte Darstellungen sexuellen Kindesmissbrauchs und nicht einvernehmliche intime Bilder gelten ab 2. Dezember 2026."
+    },
+    "sources": [
+      {
+        "label": "White & Case: EU AI Omnibus enters into force",
+        "url": "https://www.whitecase.com/insight-alert/eu-ai-omnibus-enters-force-amending-ai-act"
+      },
+      {
+        "label": "Gibson Dunn: EU AI Act Omnibus agreement",
+        "url": "https://www.gibsondunn.com/eu-ai-act-omnibus-agreement-postponed-high-risk-deadlines-and-other-key-changes/"
+      }
+    ],
+    "featured": true,
+    "banner": {
+      "en": "EU AI Act: high-risk obligations apply from 2 December 2027",
+      "de": "EU AI Act: Pflichten für Hochrisiko-Systeme gelten ab 2. Dezember 2027"
+    }
+  }
+]

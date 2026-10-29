@@ -7,6 +7,7 @@ import Landing from '@/views/marketing/Landing';
 import About from '@/views/marketing/About';
 import Security from '@/views/marketing/Security';
 import Documentation from '@/views/marketing/Documentation';
+import News from '@/views/marketing/News';
 import Avv from '@/views/marketing/Avv';
 import PrivacyDraft from '@/views/marketing/PrivacyDraft';
 import ImprintDraft from '@/views/marketing/ImprintDraft';
@@ -25,6 +26,7 @@ import FrameworkDetail from '@/views/frameworks/FrameworkDetail';
 import Community from '@/views/community/Community';
 import ThreadDetail from '@/views/community/ThreadDetail';
 import Timeline from '@/views/timeline/Timeline';
+import RegulatoryNews from '@/views/news/RegulatoryNews';
 import AiSystems from '@/views/aiSystems/AiSystems';
 import AiSystemNew from '@/views/aiSystems/AiSystemNew';
 import AiSystemEdit from '@/views/aiSystems/AiSystemEdit';
@@ -50,6 +52,7 @@ export default function AppRoutes() {
         <Route path="/about" element={<About />} />
         <Route path="/security" element={<Security />} />
         <Route path="/docs" element={<Documentation />} />
+        <Route path="/news" element={<News />} />
         <Route path="/avv" element={<Avv />} />
         <Route path="/privacy" element={<PrivacyDraft />} />
         <Route path="/impressum" element={<ImprintDraft />} />
@@ -73,6 +76,7 @@ export default function AppRoutes() {
         <Route path="/frameworks" element={<Frameworks />} />
         <Route path="/frameworks/:key" element={<FrameworkDetail />} />
         <Route path="/timeline" element={<Timeline />} />
+        <Route path="/regulatory-news" element={<RegulatoryNews />} />
         <Route path="/ai-systems" element={<AiSystems />} />
         <Route path="/ai-systems/new" element={<AiSystemNew />} />
         <Route path="/ai-systems/:id/edit" element={<AiSystemEdit />} />

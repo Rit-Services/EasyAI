@@ -100,7 +100,8 @@
       "Review your insurance and contracts for AI-related liability."
     ],
     "keyDates": [
-      "In force since 9 December 2024; Germany must turn it into national law by 9 December 2026."
+      "In force at EU level since 9 December 2024.",
+      "Germany passed its implementing law (the new Product Liability Act) in October 2026; it applies from 9 December 2026."
     ],
     "penalties": "Civil liability: you may have to pay compensation for damage caused by a defective product."
   },
@@ -108,10 +109,12 @@
     "whatYouMustDo": [
       "Run a safety risk assessment for your machine, including any self-learning AI behaviour.",
       "Build in safety functions and keep technical documentation.",
-      "Complete the conformity assessment and CE marking before sale."
+      "Complete the conformity assessment and CE marking before sale.",
+      "Watch for the European Commission's delegated acts that will add AI-specific requirements for machinery."
     ],
     "keyDates": [
-      "Applies from 20 January 2027."
+      "Applies from 20 January 2027.",
+      "AI-specific requirements for machinery will be added by the European Commission through delegated acts, to apply by 2 August 2028 (Digital Omnibus, Regulation (EU) 2026/1744)."
     ],
     "penalties": "National market-surveillance measures, fines, and product withdrawal."
   },
@@ -156,9 +159,10 @@
       "Consider the regulatory sandbox if you are developing new AI."
     ],
     "keyDates": [
-      "Government draft adopted 10 February 2026; still going through parliament."
+      "Passed by the Bundestag on 11 June 2026 and approved by the Bundesrat on 10 July 2026.",
+      "In force since 29 July 2026 (Federal Law Gazette 2026 I No. 223)."
     ],
-    "penalties": "Will follow the EU AI Act penalty levels once enacted."
+    "penalties": "Fines follow the EU AI Act's penalty levels; the KI-MIG sets how German authorities impose them."
   },
   "bdsg": {
     "whatYouMustDo": [
@@ -358,12 +362,15 @@
   "prodhaftg": {
     "whatYouMustDo": [
       "Treat AI-integrated products as potentially defective and keep safety evidence.",
-      "Prepare for the wider rules coming from the new EU directive by December 2026."
+      "From 9 December 2026, treat software and AI themselves as products: keep testing and safety evidence, and be ready to disclose technical information if someone brings a claim.",
+      "Review your insurance and contracts: the new law no longer caps liability."
     ],
     "keyDates": [
-      "In force; an update is due by December 2026."
+      "Current version in force since 1 January 1990.",
+      "New version passed by the Bundestag on 8 October 2026 and cleared by the Bundesrat on 16 October 2026; it applies from 9 December 2026.",
+      "Products placed on the market up to 8 December 2026 stay under the old rules."
     ],
-    "penalties": "Strict liability: compensation for damage caused by a defective product."
+    "penalties": "Strict liability: compensation for damage caused by a defective product. From 9 December 2026 there is no upper limit (previously EUR 85 million for personal injury) and no EUR 500 deductible for property damage."
   },
   "ehds": {
     "whatYouMustDo": [
@@ -398,5 +405,14 @@
       "Based on BaFin guidance from 2021; expectations continue to evolve."
     ],
     "penalties": "BaFin supervisory measures and fines."
+  },
+  "deepfake_law": {
+    "whatYouMustDo": [
+      "Follow the bill through parliament and prepare policies against harmful deepfakes."
+    ],
+    "keyDates": [
+      "Federal cabinet approved the bill on 7 October 2026; it now goes to the Bundestag and Bundesrat. Not yet in force."
+    ],
+    "penalties": "Not yet set; expected to be criminal penalties."
   }
 }

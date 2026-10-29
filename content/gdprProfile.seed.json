@@ -37,11 +37,12 @@
     { "section": "basics", "code": "pseudonymised", "type": "boolean", "prompt": "Is the personal data pseudonymised (direct identifiers replaced with keys) where possible?", "helpText": "Pseudonymisation is a recognised safeguard, though the data is still personal data." },
     { "section": "basics", "code": "childrens_data", "type": "boolean", "prompt": "Does it process the personal data of children?", "helpText": "In Germany the digital age of consent is 16 (GDPR Art. 8 allows 13–16; Germany kept 16)." },
 
-    { "section": "role", "code": "org_size", "type": "single", "prompt": "How large is your organisation?", "helpText": "The 250-employee mark matters for the records exemption (Art. 30(5)).",
+    { "section": "role", "code": "org_size", "type": "single", "prompt": "How large is your organisation?", "helpText": "The 250-employee mark matters for the records exemption (Art. 30(5) GDPR). Under the EU AI Act, a company that is not an SME, has fewer than 750 staff and turnover up to EUR 150 million (or a balance sheet up to EUR 129 million) is a small mid-cap and gets some of the SME simplifications.",
       "options": [
         { "value": "under_10", "label": "Under 10 staff" },
         { "value": "s10_249", "label": "10 – 249 staff" },
-        { "value": "over_250", "label": "250 or more staff" }
+        { "value": "s250_749", "label": "250 – 749 staff (small mid-cap)" },
+        { "value": "over_750", "label": "750 or more staff" }
       ] },
     { "section": "role", "code": "auto_processing_staff", "type": "number", "prompt": "How many of your staff are constantly engaged in the automated processing of personal data?", "helpText": "Germany (§38 BDSG) requires a Data Protection Officer once 20 or more people are.", "unit": "people" },
     { "section": "role", "code": "acts_as_processor", "tag": "AVV", "type": "boolean", "prompt": "Do you process this data on behalf of another organisation (you are a processor, not the controller)?", "helpText": "A processor follows the controller's instructions and has its own duties." },
@@ -95,6 +96,7 @@
 
     { "section": "highrisk", "code": "large_scale_monitoring", "type": "boolean", "prompt": "Does it involve large-scale or systematic monitoring or profiling of people?", "helpText": "Systematic monitoring is a common DPIA and DPO trigger." },
     { "section": "highrisk", "code": "trains_on_personal_data", "type": "boolean", "prompt": "Do you use personal data to train, fine-tune or improve the AI model?", "helpText": "Training on personal data raises purpose-limitation and erasure challenges." },
+    { "section": "highrisk", "code": "bias_detection_special_data", "type": "boolean", "prompt": "Do you use special-category data (for example health or ethnic origin) to detect or correct bias in an AI system?", "helpText": "The AI Act's Art. 4a (added in 2026) allows this only as an exception and with strict safeguards." },
 
     { "section": "governance", "code": "retention_status", "type": "single", "prompt": "Have you defined how long the data is kept and when it is deleted?", "helpText": "Personal data must not be kept longer than necessary (Art. 5(1)(e)).",
       "options": [
@@ -292,6 +294,14 @@
       "solution": "Identify and document the Art. 9(2) condition you rely on. This processing almost always also requires a DPIA.",
       "exemptionNote": "Does NOT apply to data that merely looks sensitive but is not used to infer a protected trait, nor to truly anonymised data. Criminal-offence data is covered separately by Art. 10, not Art. 9.",
       "when": { "all": [{ "includesAny": ["special_categories", ["health", "biometric", "genetic", "racial", "religious", "political", "sexual", "trade_union"]] }] }
+    },
+    {
+      "id": "ai_act_art4a_bias", "title": "Meet the safeguards for using sensitive data to detect bias", "law": "AI Act Art. 4a + GDPR Art. 9", "severity": "mandatory",
+      "lawUrl": "https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-4a",
+      "lawExplanation": "Art. 4a of the AI Act, added by Regulation (EU) 2026/1744, lets providers and deployers of AI systems and models process special categories of personal data as an exception, where this is strictly necessary to detect and correct bias. It replaces the former Art. 10(5) and comes with safeguards that must all be met.",
+      "why": "Special-category data is the most protected data under the GDPR. Using it for bias testing without the Art. 4a safeguards would be unlawful processing under Art. 9 GDPR.",
+      "solution": "Before you use the data, document why other data (including synthetic or anonymised data) cannot achieve the purpose. Pseudonymise it, limit and log who can access it, do not pass it on to anyone else, and delete it once the bias is corrected. Record this in your records of processing.",
+      "when": { "all": ["bias_detection_special_data"] }
     },
     {
       "id": "art10_criminal", "title": "Handle criminal-offence data lawfully", "law": "GDPR Art. 10, §...BDSG", "severity": "mandatory",

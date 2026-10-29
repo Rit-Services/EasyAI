@@ -1,6 +1,7 @@
 # JurisAI web client (React/Vite -> static, served by nginx).
 # IMPORTANT: build context must be the REPO ROOT, because the client's Vite
-# config aliases the screenshot-feedback plugin from ../plugins (outside client/).
+# config aliases the screenshot-feedback plugin from ../plugins and the law
+# catalog from ../content (both outside client/).
 #   docker build -f client/Dockerfile -t ritservi/jurisai-client:latest .
 FROM node:20-alpine AS build
 WORKDIR /app
@@ -9,8 +10,10 @@ WORKDIR /app
 COPY client/package*.json ./client/
 RUN cd client && npm ci
 
-# The plugin source the client imports via a Vite alias, then the client source.
+# The plugin source and law catalog the client imports via Vite aliases, then
+# the client source.
 COPY plugins ./plugins
+COPY content ./content
 COPY client ./client
 
 RUN cd client && npm run build

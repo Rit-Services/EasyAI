@@ -1,72 +1,110 @@
 [
   {
+    "date": "2024-08-01",
+    "frameworkKey": "eu_ai_act",
+    "label": "EU AI Act entered into force",
+    "labelDe": "KI-Verordnung ist in Kraft getreten"
+  },
+  {
+    "date": "2025-01-17",
+    "frameworkKey": "dora",
+    "label": "DORA became applicable to financial entities",
+    "labelDe": "DORA gilt für Finanzunternehmen"
+  },
+  {
     "date": "2025-02-02",
     "frameworkKey": "eu_ai_act",
-    "label": "EU AI Act: banned AI practices became enforceable"
+    "label": "EU AI Act: banned AI practices became enforceable",
+    "labelDe": "KI-Verordnung: Verbotene KI-Praktiken wurden durchsetzbar"
   },
   {
     "date": "2025-08-02",
     "frameworkKey": "eu_ai_act",
-    "label": "EU AI Act: rules for general-purpose AI models began"
+    "label": "EU AI Act: rules for general-purpose AI models began",
+    "labelDe": "KI-Verordnung: Regeln für KI-Modelle mit allgemeinem Verwendungszweck (GPAI) gelten"
   },
   {
     "date": "2025-09-12",
     "frameworkKey": "eu_data_act",
-    "label": "EU Data Act: main rules became applicable"
+    "label": "EU Data Act: main rules became applicable",
+    "labelDe": "EU Data Act: Hauptregeln gelten"
   },
   {
     "date": "2025-12-05",
     "frameworkKey": "nis2",
-    "label": "German NIS2 implementing law came into force"
+    "label": "German NIS2 implementing law came into force",
+    "labelDe": "Deutsches NIS2-Umsetzungsgesetz in Kraft getreten"
+  },
+  {
+    "date": "2026-07-27",
+    "frameworkKey": "eu_ai_act",
+    "label": "EU AI Act amended by the Digital Omnibus: high-risk deadlines moved",
+    "labelDe": "KI-Verordnung durch den Digital-Omnibus geändert: Hochrisiko-Fristen verschoben"
+  },
+  {
+    "date": "2026-07-29",
+    "frameworkKey": "ki_mig",
+    "label": "KI-MIG came into force: the Federal Network Agency supervises AI in Germany",
+    "labelDe": "KI-MIG in Kraft getreten: Die Bundesnetzagentur beaufsichtigt KI in Deutschland"
   },
   {
     "date": "2026-08-02",
     "frameworkKey": "eu_ai_act",
-    "label": "EU AI Act: general application, including the transparency duties (Art. 50)"
+    "label": "EU AI Act: general application, including the transparency duties (Art. 50)",
+    "labelDe": "KI-Verordnung: allgemeine Geltung, einschließlich der Transparenzpflichten (Art. 50)"
   },
   {
     "date": "2026-09-11",
     "frameworkKey": "cra",
-    "label": "Cyber Resilience Act: vulnerability reporting duties start"
+    "label": "Cyber Resilience Act: vulnerability reporting duties start",
+    "labelDe": "Cyber Resilience Act: Meldepflichten für Schwachstellen beginnen"
   },
   {
     "date": "2026-12-02",
     "frameworkKey": "eu_ai_act",
-    "label": "EU AI Act: new bans on AI-generated CSAM and non-consensual intimate imagery; AI-generated content must be machine-readably marked"
+    "label": "EU AI Act: new bans on AI-generated CSAM and non-consensual intimate imagery; AI-generated content must be machine-readably marked",
+    "labelDe": "KI-Verordnung: neue Verbote für KI-generierte Darstellungen sexuellen Kindesmissbrauchs und nicht einvernehmliche intime Bilder; KI-generierte Inhalte müssen maschinenlesbar gekennzeichnet sein"
   },
   {
     "date": "2026-12-09",
-    "frameworkKey": "pld",
-    "label": "Product Liability Directive: Germany must transpose it by now"
+    "frameworkKey": "prodhaftg",
+    "label": "New Product Liability Act applies (implements the EU Product Liability Directive): software and AI count as products",
+    "labelDe": "Neues Produkthaftungsgesetz gilt (setzt die EU-Produkthaftungsrichtlinie um): Software und KI gelten als Produkte"
   },
   {
     "date": "2027-01-20",
     "frameworkKey": "machinery",
-    "label": "Machinery Regulation starts to apply"
+    "label": "Machinery Regulation starts to apply",
+    "labelDe": "Maschinenverordnung gilt"
   },
   {
     "date": "2027-08-02",
     "frameworkKey": "eu_ai_act",
-    "label": "EU AI Act: regulatory sandboxes must be in place"
+    "label": "EU AI Act: regulatory sandboxes must be in place",
+    "labelDe": "KI-Verordnung: KI-Reallabore müssen eingerichtet sein"
   },
   {
     "date": "2027-12-02",
     "frameworkKey": "eu_ai_act",
-    "label": "EU AI Act: high-risk rules apply to stand-alone Annex III systems (deferred from 2 August 2026)"
+    "label": "EU AI Act: high-risk rules apply to stand-alone Annex III systems (deferred from 2 August 2026)",
+    "labelDe": "KI-Verordnung: Hochrisiko-Regeln gelten für eigenständige Systeme nach Anhang III (verschoben vom 2. August 2026)"
   },
   {
     "date": "2027-12-11",
     "frameworkKey": "cra",
-    "label": "Cyber Resilience Act: main obligations apply"
+    "label": "Cyber Resilience Act: main obligations apply",
+    "labelDe": "Cyber Resilience Act: Hauptpflichten gelten"
   },
   {
     "date": "2028-08-02",
     "frameworkKey": "eu_ai_act",
-    "label": "EU AI Act: high-risk rules apply to AI built into regulated products (Annex I)"
+    "label": "EU AI Act: high-risk rules apply to AI built into regulated products (Annex I)",
+    "labelDe": "KI-Verordnung: Hochrisiko-Regeln gelten für KI in regulierten Produkten (Anhang I)"
   },
   {
     "date": "2030-08-02",
     "frameworkKey": "eu_ai_act",
-    "label": "EU AI Act: legacy AI systems used by public authorities must comply"
+    "label": "EU AI Act: legacy AI systems used by public authorities must comply",
+    "labelDe": "KI-Verordnung: Bestehende KI-Systeme von Behörden müssen die Regeln erfüllen"
   }
 ]

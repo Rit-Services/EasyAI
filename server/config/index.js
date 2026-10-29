@@ -39,6 +39,11 @@ const config = {
     user: process.env.SMTP_USER || '',
     pass: process.env.SMTP_PASS || '',
     from: process.env.EMAIL_FROM || 'Compliance Check <no-reply@aicompliance.local>',
+    // Who is told about every new community discussion and reply, so it can
+    // be reviewed and removed if needed. Production defaults to RIT's
+    // compliance inbox; elsewhere it is off unless set. Set to '' to disable.
+    communityNotify: process.env.COMMUNITY_NOTIFY_EMAIL
+      ?? (process.env.NODE_ENV === 'production' ? 'compliance@rit.services' : ''),
   },
 
   reminders: {

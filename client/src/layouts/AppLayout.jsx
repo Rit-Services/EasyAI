@@ -24,6 +24,7 @@ const TITLES = [
   [/^\/community/, 'title.community'],
   [/^\/faq/, 'title.faq'],
   [/^\/timeline/, 'title.timeline'],
+  [/^\/regulatory-news/, 'title.news'],
   [/^\/ai-systems\/new/, 'title.registerAi'],
   [/^\/ai-systems\/[^/]+\/edit/, 'title.editAi'],
   [/^\/ai-systems\/[^/]+\/classify/, 'title.classifyAi'],

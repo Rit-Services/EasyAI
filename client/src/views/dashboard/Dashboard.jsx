@@ -8,6 +8,7 @@ import { SkeletonPage, ErrorState, Banner } from '@/components/ui/Ui';
 import {
   ComplianceStandingCard, RiskOverviewPanel, UpcomingReviewsWidget,
   ActiveFrameworksWidget, OpenItemsList, RecentActivityFeed, ComplianceTrendWidget,
+  RegulatoryNewsWidget,
 } from '@/components/dashboard/widgets';
 
 export default function Dashboard() {
@@ -69,6 +70,8 @@ export default function Dashboard() {
           <UpcomingReviewsWidget upcoming={data.upcoming} />
           <RecentActivityFeed recentActivity={data.recentActivity} />
         </div>
+
+        <RegulatoryNewsWidget />
       </div>
     </div>
   );

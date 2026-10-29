@@ -27,7 +27,7 @@ run('A: US HR recruitment AI (controller, high-risk, many gaps)', {
   special_categories: [],
   pseudonymised: false,
   childrens_data: false,
-  org_size: 'over_250',
+  org_size: 'over_750',
   auto_processing_staff: 35,
   acts_as_processor: false,
   joint_controller: false,

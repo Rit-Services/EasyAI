@@ -5,6 +5,7 @@ const {
   visibilityWhere, canSeeThread, canModerate, setVote, myVotes,
   publicThread, authorInclude, ensureThreadTitles, ensureThreadDetail,
 } = require('../../services/community/communityService');
+const { notifyNewCommunityPost } = require('../../services/community/moderationNotice');
 
 const SORTS = {
   new: [{ pinned: 'desc' }, { createdAt: 'desc' }],
@@ -98,6 +99,7 @@ async function create(req, res) {
     include: { author: authorInclude, framework: { select: { key: true, name: true, shortName: true } } },
   });
   await recordAudit({ req, action: 'thread.created', entityType: 'Thread', entityId: thread.id });
+  notifyNewCommunityPost({ kind: 'thread', thread, body, user: req.user });
   res.status(201).json({ thread: publicThread(thread, { canModerate: canModerate(thread, req.user) }) });
 }
 

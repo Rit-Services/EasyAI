@@ -2093,6 +2093,8 @@ body.reply-dock-open [data-feedback-trigger="true"] { display: none !important; 
   border: 1px solid rgba(255, 255, 255, 0.14); background: rgba(255, 255, 255, 0.05);
   font-size: 12.5px; color: #c9cfda;
 }
+a.mkt-hero-badge { text-decoration: none; transition: border-color .15s ease, color .15s ease; }
+a.mkt-hero-badge:hover { border-color: rgba(127, 214, 201, 0.55); color: #e6eaf0; }
 .mkt-hero-badge-tag {
   font-size: 11px; font-weight: 700; color: #0b0d12; background: #7fd6c9;
   padding: 2px 8px; border-radius: 999px;

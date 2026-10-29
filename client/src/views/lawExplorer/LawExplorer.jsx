@@ -326,7 +326,7 @@ export default function LawExplorer() {
                     <div><Chip className={x.past ? 'chip-grey' : 'chip-green'}>{x.past ? t.done : t.upcoming}</Chip></div>
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div className="small">{x.label}</div>
+                    <div className="small">{(lang === 'de' && x.labelDe) || x.label}</div>
                     {fw && <button className="link-row" style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--accent-ink)' }} onClick={() => setOpenKey(x.frameworkKey)}>{fw.shortName || tLaw(fw, lang).name}</button>}
                   </div>
                 </div>

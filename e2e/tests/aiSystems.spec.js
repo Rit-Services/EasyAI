@@ -70,6 +70,8 @@ test.describe('AI Systems and classification module', () => {
     await expect(page.getByTestId('classify')).toBeVisible();
     await page.getByTestId('classify-submit').click();
     await expect(page.getByTestId('result-risk')).toContainText('Minimal risk');
+    // AI literacy (Art. 4) applies to every system, minimal-risk ones included.
+    await expect(page.getByText(/AI literacy \(Art\. 4\)/)).toBeVisible();
   });
 
   test('an AI system can be deleted', async ({ page }) => {

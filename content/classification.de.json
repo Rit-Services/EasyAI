@@ -37,7 +37,7 @@
     },
     "safety_component": {
       "prompt": "Ist die KI eine Sicherheitskomponente eines Produkts oder selbst ein Produkt, das einer Sicherheitsbewertung unterzogen werden muss?",
-      "helpText": "Zum Beispiel KI in Medizinprodukten, Maschinen oder Fahrzeugen."
+      "helpText": "Antworten Sie mit Ja bei KI in Produkten, die unter die EU-Produktvorschriften in Anhang I Abschnitt A fallen, zum Beispiel Medizinprodukte, In-vitro-Diagnostika, Spielzeug, Aufzüge oder Funkanlagen. KI in Maschinen, Fahrzeugen oder Luftfahrzeugen (Anhang I Abschnitt B) erhält ihre KI-Anforderungen stattdessen über die eigenen EU-Vorschriften dieser Produkte; seit der Änderung von 2026 gilt das auch für Maschinen nach der Maschinenverordnung."
     },
     "critical_infrastructure": {
       "prompt": "Ist es eine Sicherheitskomponente bei der Verwaltung kritischer Infrastruktur (Energie, Wasser, Gas oder Verkehr)?",
@@ -86,9 +86,9 @@
   },
   "explanations": {
     "prohibited": "Das System könnte unter eine verbotene Praktik der KI-Verordnung (Art. 5) fallen, etwa Social Scoring, Manipulation, verbotene biometrische Nutzungen oder vorausschauende Polizeiarbeit. Diese Nutzungen sind untersagt; prüfen Sie dies dringend und holen Sie Rechtsrat ein. Ab dem 2. Dezember 2026 zählen dazu auch KI-Systeme, die Material des sexuellen Kindesmissbrauchs oder nicht einvernehmliche intime Aufnahmen erzeugen.",
-    "high": "Das System wird in einem in Anhang III aufgeführten Hochrisikobereich oder als sicherheitsrelevante Produktkomponente eingesetzt und gilt daher als hochriskant. Es gelten sämtliche Hochrisikopflichten, darunter Risikomanagement, Daten-Governance, Dokumentation, menschliche Aufsicht sowie Genauigkeits- und Sicherheitsprüfungen.",
+    "high": "Das System wird in einem in Anhang III aufgeführten Hochrisikobereich oder als sicherheitsrelevante Produktkomponente eingesetzt und gilt daher als hochriskant. Es gelten sämtliche Hochrisikopflichten, darunter Risikomanagement, Daten-Governance, Dokumentation, menschliche Aufsicht sowie Genauigkeits- und Sicherheitsprüfungen. Diese Pflichten gelten ab dem 2. Dezember 2027 für eigenständige Systeme nach Anhang III und ab dem 2. August 2028 für KI in Produkten nach Anhang I.",
     "limited": "Das System interagiert mit Menschen oder erzeugt Inhalte, sodass die Transparenzpflichten für begrenztes Risiko gelten (Art. 50). Sie müssen Menschen darüber informieren, dass sie es mit KI zu tun haben, und KI-generierte Inhalte kennzeichnen.",
-    "minimal": "Es trafen keine Kriterien für ein höheres Risiko zu, daher wird dieses System als minimales Risiko eingestuft.",
+    "minimal": "Es trafen keine Kriterien für ein höheres Risiko zu, daher wird dieses System als minimales Risiko eingestuft. Eine Pflicht gilt dennoch für jedes KI-System: Sorgen Sie mit geeigneten Maßnahmen für ausreichende KI-Kompetenz der Personen, die es entwickeln oder nutzen (Art. 4).",
     "none": "Kein Fragebogen gefunden; als minimales Risiko eingestuft."
   }
 }

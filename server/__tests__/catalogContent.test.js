@@ -41,6 +41,72 @@ describe('catalog integrity', () => {
       expect(Number.isNaN(Date.parse(e.date)), e.label).toBe(false);
       expect(keys.has(e.frameworkKey), e.frameworkKey).toBe(true);
       expect(e.label, e.date).toBeTruthy();
+      expect(e.labelDe, e.label).toBeTruthy();
+    }
+    // The client derives each milestone's calendar-export UID from date + framework.
+    const ids = read('timeline.json').map((e) => `${e.date}-${e.frameworkKey}`);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it('per-framework review dates are valid days', () => {
+    for (const f of read('frameworks.seed.json').filter((x) => x.lastReviewedAt)) {
+      expect(f.lastReviewedAt, f.key).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(Number.isNaN(Date.parse(f.lastReviewedAt)), f.key).toBe(false);
+    }
+  });
+
+  it('at most one news entry is featured on the homepage, with a bilingual banner', () => {
+    const featured = read('news.json').filter((n) => n.featured);
+    expect(featured.length).toBeLessThanOrEqual(1);
+    for (const n of featured) {
+      if (n.banner) for (const lang of ['en', 'de']) expect(n.banner[lang], `${n.id} banner.${lang}`).toBeTruthy();
+    }
+  });
+
+  it('data-protection profile obligations only reference existing questions, and German covers all of it', () => {
+    const profile = read('gdprProfile.seed.json');
+    const de = read('gdprProfile.de.json');
+    const codes = new Set(profile.questions.map((q) => q.code));
+    // Condition leaves are "code" / "!code" strings or { op: [code, ...] } objects.
+    const refs = [];
+    const walk = (node) => {
+      if (typeof node === 'string') refs.push(node.replace(/^!/, ''));
+      else if (Array.isArray(node)) node.forEach(walk);
+      else if (node && typeof node === 'object') {
+        for (const [k, v] of Object.entries(node)) {
+          if (k === 'all' || k === 'any') walk(v);
+          else if (Array.isArray(v) && typeof v[0] === 'string') refs.push(v[0]);
+        }
+      }
+    };
+    for (const o of profile.obligations) walk(o.when);
+    for (const r of refs) expect(codes.has(r), `unknown question "${r}"`).toBe(true);
+    for (const q of profile.questions) expect(de.questions[q.code], `DE question ${q.code}`).toBeTruthy();
+    for (const o of profile.obligations) expect(de.obligations[o.id], `DE obligation ${o.id}`).toBeTruthy();
+    for (const q of profile.questions.filter((x) => x.options)) {
+      for (const opt of q.options) expect(de.questions[q.code].options?.[opt.value], `DE option ${q.code}.${opt.value}`).toBeTruthy();
+    }
+  });
+
+  it('news entries are bilingual, dated, sourced and point at known frameworks', () => {
+    const keys = new Set(read('frameworks.seed.json').map((f) => f.key));
+    const news = read('news.json');
+    expect(new Set(news.map((n) => n.id)).size).toBe(news.length);
+    for (const n of news) {
+      expect(n.id, JSON.stringify(n)).toMatch(/^[a-z0-9-]+$/);
+      expect(n.date, n.id).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(Number.isNaN(Date.parse(n.date)), n.id).toBe(false);
+      for (const lang of ['en', 'de']) {
+        expect(n.title?.[lang], `${n.id} title.${lang}`).toBeTruthy();
+        expect(n.summary?.[lang], `${n.id} summary.${lang}`).toBeTruthy();
+      }
+      expect(n.frameworkKeys?.length, n.id).toBeGreaterThan(0);
+      for (const k of n.frameworkKeys) expect(keys.has(k), `${n.id}: ${k}`).toBe(true);
+      expect(n.sources?.length, n.id).toBeGreaterThan(0);
+      for (const s of n.sources) {
+        expect(s.label, n.id).toBeTruthy();
+        expect(s.url, n.id).toMatch(/^https:\/\//);
+      }
     }
   });
 

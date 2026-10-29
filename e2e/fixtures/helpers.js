@@ -11,7 +11,14 @@ function uniqueEmail(prefix = 'user') {
 async function signUpAndSignIn(page, { fullName = 'Test User', organizationName = 'Test GmbH' } = {}) {
   const email = uniqueEmail();
   const password = 'Test12345!';
-  await page.request.post('/api/auth/register', { data: { fullName, email, password, organizationName } });
+  // Registration requires the organisation's address and AVV acceptance.
+  await page.request.post('/api/auth/register', {
+    data: {
+      fullName, email, password, organizationName,
+      organizationAddress: 'Teststraße 1, 50667 Köln',
+      avvAccepted: true,
+    },
+  });
   const tokRes = await page.request.post('/api/auth/dev/verification-token', { data: { email } });
   const { token } = await tokRes.json();
   await page.request.post('/api/auth/verify-email', { data: { token } });

@@ -262,6 +262,53 @@ async function sendBreachNotificationEmail(user, org, details) {
   });
 }
 
+// User-written text (community posts) must not be able to inject markup.
+function escapeHtml(s = '') {
+  return String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+const COMMUNITY_EXCERPT = 2000;
+
+// Moderation notice for a new community discussion (kind 'thread') or reply
+// (kind 'reply'): who posted, where, the text, and a link to open it and
+// remove it if needed. Kept separate from sending so it can be unit-tested.
+function buildCommunityPostEmail({ kind, thread, body, author, orgName, link }) {
+  const isReply = kind === 'reply';
+  const label = isReply ? 'New reply' : 'New discussion';
+  const title = String(thread.title).slice(0, 120);
+  const who = `${author.fullName} <${author.email}>${orgName ? `, ${orgName}` : ''}`;
+  const audience = thread.visibility === 'org'
+    ? "Only visible to the poster's organisation"
+    : 'Visible to all Community users';
+  const excerpt = body.length > COMMUNITY_EXCERPT ? `${body.slice(0, COMMUNITY_EXCERPT)}…` : body;
+
+  return {
+    subject: `${label} in the Community: ${title}`,
+    text: [
+      `${label} in the Compliance Check Community.`,
+      `Discussion: ${thread.title}`,
+      `Posted by: ${who}`,
+      audience,
+      '',
+      excerpt,
+      '',
+      `Open it (and delete it if needed): ${link}`,
+    ].join('\n'),
+    html: emailShell(
+      `${label} in the Community`,
+      `<p style="margin:0 0 6px;"><strong>${escapeHtml(thread.title)}</strong></p>
+       <p style="color:#5b6373;font-size:13px;margin:0 0 16px;">Posted by ${escapeHtml(who)}<br>${audience}</p>
+       <div style="white-space:pre-wrap;border-left:3px solid #d8d0c4;padding:4px 0 4px 12px;margin:0 0 20px;">${escapeHtml(excerpt)}</div>
+       <p style="margin:24px 0;"><a href="${link}" style="background:#0b2545;color:#fff;text-decoration:none;padding:12px 20px;border-radius:4px;font-weight:600;">Open in Compliance Check</a></p>
+       <p style="color:#5b6373;font-size:13px;">Signed in as a platform admin, you can delete it from the discussion page.</p>`,
+    ),
+  };
+}
+
+async function sendCommunityPostEmail(to, details) {
+  return sendMail({ to, ...buildCommunityPostEmail(details) });
+}
+
 function emailShell(heading, bodyHtml) {
   return `<!doctype html><html><body style="margin:0;background:#f7f4ee;padding:24px;font-family:Arial,Helvetica,sans-serif;color:#1c2733;">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
@@ -290,4 +337,6 @@ module.exports = {
   sendSupportAccessReportEmail,
   sendSubprocessorChangeEmail,
   sendBreachNotificationEmail,
+  buildCommunityPostEmail,
+  sendCommunityPostEmail,
 };

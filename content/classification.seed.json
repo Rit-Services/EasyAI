@@ -90,7 +90,7 @@
       "answerType": "boolean",
       "sortOrder": 9,
       "prompt": "Is the AI a safety component of a product, or a product itself, that must undergo a safety assessment?",
-      "helpText": "For example AI inside medical devices, machinery, or vehicles."
+      "helpText": "Answer Yes for AI in products covered by the EU product laws in Annex I, Section A, for example medical devices, in-vitro diagnostics, toys, lifts or radio equipment. AI in machinery, vehicles or aircraft (Annex I, Section B) gets its AI requirements through those products' own EU rules instead; since the 2026 amendment this includes machinery under the Machinery Regulation."
     },
     {
       "code": "critical_infrastructure",
@@ -254,7 +254,7 @@
           }
         ]
       },
-      "explanation": "The system is used in a high-risk area listed in Annex III, or as a product safety component, so it is treated as high-risk. The full set of high-risk duties applies, including risk management, data governance, documentation, human oversight, and accuracy and security testing."
+      "explanation": "The system is used in a high-risk area listed in Annex III, or as a product safety component, so it is treated as high-risk. The full set of high-risk duties applies, including risk management, data governance, documentation, human oversight, and accuracy and security testing. These duties apply from 2 December 2027 for stand-alone systems listed in Annex III and from 2 August 2028 for AI in products covered by Annex I."
     },
     {
       "priority": 30,

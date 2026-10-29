@@ -14,6 +14,7 @@ import ProcessFlow from '@/components/marketing/ProcessFlow';
 import {
   HERO, STATS, FEATURES, SECURITY_POINTS, PUBLIC_FAQ, HOME_ABOUT,
 } from '@/data/marketingContent';
+import { HOMEPAGE_NEWS } from '@/data/catalog';
 
 const ICONS = { ShieldCheck, ListChecks, Compass, CalendarClock, Users, Lock };
 
@@ -120,10 +121,12 @@ export default function Landing() {
       <section className="mkt-hero">
         <NeuralBackground dark />
         <div className="mkt-hero-inner">
-          <div className="mkt-hero-badge" style={{ marginBottom: 0 }}>
-            <span className="mkt-hero-badge-tag">{HERO.badgeTag[lang]}</span>
-            <span>{HERO.badgeText[lang]}</span>
-          </div>
+          {HOMEPAGE_NEWS && (
+            <Link to={`/news#${HOMEPAGE_NEWS.id}`} className="mkt-hero-badge" style={{ marginBottom: 0 }} data-testid="mkt-hero-news">
+              <span className="mkt-hero-badge-tag">{HERO.badgeTag[lang]}</span>
+              <span>{(HOMEPAGE_NEWS.banner || HOMEPAGE_NEWS.title)[lang] || HOMEPAGE_NEWS.title.en}</span>
+            </Link>
+          )}
           <h1 className="mkt-h1" style={{ marginTop: 22 }}>{HERO.title[lang]}</h1>
           <p className="mkt-lead">{HERO.subtitle[lang]}</p>
           <div className="row" style={{ gap: 12, marginTop: 26, justifyContent: 'center', flexWrap: 'wrap', position: 'relative', zIndex: 2 }}>

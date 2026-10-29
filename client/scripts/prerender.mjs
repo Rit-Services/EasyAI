@@ -1,5 +1,5 @@
 // Runs after `vite build` (wired as an npm postbuild script). Prerenders the
-// six public marketing routes to static HTML files under dist/, so a crawler
+// public marketing routes to static HTML files under dist/, so a crawler
 // that never executes JavaScript (most AI answer-engine crawlers: GPTBot,
 // ClaudeBot, PerplexityBot, etc., per the geo-content-optimization skill)
 // sees real content in the response bytes, not an empty <div id="root">.
@@ -64,6 +64,13 @@ const PAGES = [
     title: 'Documentation | Compliance Check Features Explained',
     description: 'Every feature of Compliance Check explained in detail with real screenshots: AI system inventory, EU AI Act risk classification, checklists, the Law Explorer, the frameworks library, compliance timeline, encrypted documents, audit log, and team settings.',
     canonical: `${SITE}/docs`,
+  },
+  {
+    route: '/news',
+    outFile: 'news.html',
+    title: 'AI Regulation News for Germany | Compliance Check',
+    description: 'What is changing in AI law in Germany and the EU: new laws, moved EU AI Act deadlines and bills in progress, each with its sources.',
+    canonical: `${SITE}/news`,
   },
   {
     route: '/avv',

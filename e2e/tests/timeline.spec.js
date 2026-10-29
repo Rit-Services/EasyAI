@@ -9,10 +9,10 @@ test.describe('Compliance Timeline', () => {
 
     // Years are collapsed by default — the year header shows, items are hidden.
     await expect(page.getByTestId('tl-year-2026')).toBeVisible();
-    await expect(page.getByText('EU AI Act: high-risk AI rules start to apply')).toBeHidden();
+    await expect(page.getByText('EU AI Act: general application, including the transparency duties (Art. 50)')).toBeHidden();
     // Expand 2026 to reveal its milestones.
     await page.getByTestId('tl-year-2026').click();
-    await expect(page.getByText('EU AI Act: high-risk AI rules start to apply')).toBeVisible();
+    await expect(page.getByText('EU AI Act: general application, including the transparency duties (Art. 50)')).toBeVisible();
 
     // Filtering to "My reviews" (none yet) empties it; "All" restores the years.
     await page.getByTestId('tl-filter-reviews').click();

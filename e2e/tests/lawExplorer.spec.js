@@ -126,7 +126,7 @@ test.describe('Law Explorer module', () => {
     const timeline = page.getByTestId('timeline');
     await expect(timeline).toContainText('Key compliance dates');
     await expect(timeline.getByTestId('timeline-item').first()).toBeVisible();
-    await expect(timeline).toContainText('high-risk AI rules');
+    await expect(timeline).toContainText('high-risk rules');
   });
 
   // ---- Phase LE-4 ----

@@ -3,49 +3,49 @@
     "requirements": [
       {
         "code": "Art.4", "title": "AI literacy of staff",
-        "guidanceText": "Make sure the people who build or use your AI have enough training to understand what it does and where it can go wrong. Keep a short record of who was trained and when.",
+        "guidanceText": "Take measures so that the people who build or use your AI, including contractors working on your behalf, understand what it does and where it can go wrong. Since the 2026 amendment the law asks for suitable measures (for example a short training or briefing), not a fixed level for each person. This applies to every AI system, whatever its risk level. Keep a short record of who was trained and when.",
         "lawReferenceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj", "lawReferenceLabel": "AI Act Art. 4",
         "severity": "mandatory", "sortOrder": 1
       },
       {
         "code": "Art.9", "title": "Risk management system",
-        "guidanceText": "For high-risk AI, run a risk management process across the whole life of the system. Identify the risks to health, safety and rights, decide how you reduce them, and review it regularly.",
+        "guidanceText": "For high-risk AI, run a risk management process across the whole life of the system. Identify the risks to health, safety and rights, decide how you reduce them, and review it regularly. High-risk deadline: 2 December 2027 for stand-alone systems listed in Annex III; 2 August 2028 for AI in products covered by Annex I.",
         "lawReferenceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj", "lawReferenceLabel": "AI Act Art. 9",
         "severity": "mandatory", "sortOrder": 2
       },
       {
         "code": "Art.10", "title": "Data and data governance",
-        "guidanceText": "Use training and test data that is relevant and as free of errors and bias as reasonably possible. Write down where the data came from and how you checked its quality.",
+        "guidanceText": "Use training and test data that is relevant and as free of errors and bias as reasonably possible. Write down where the data came from and how you checked its quality. High-risk deadline: 2 December 2027 for stand-alone systems listed in Annex III; 2 August 2028 for AI in products covered by Annex I.",
         "lawReferenceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj", "lawReferenceLabel": "AI Act Art. 10",
         "severity": "mandatory", "sortOrder": 3
       },
       {
         "code": "Art.11", "title": "Technical documentation",
-        "guidanceText": "Keep technical documentation that shows how the system was built and tested, so an authority could check that it meets the rules.",
+        "guidanceText": "Keep technical documentation that shows how the system was built and tested, so an authority could check that it meets the rules. High-risk deadline: 2 December 2027 for stand-alone systems listed in Annex III; 2 August 2028 for AI in products covered by Annex I.",
         "lawReferenceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj", "lawReferenceLabel": "AI Act Art. 11 and Annex IV",
         "severity": "mandatory", "sortOrder": 4
       },
       {
         "code": "Art.13", "title": "Transparency for users",
-        "guidanceText": "Give the people who operate the system clear instructions: what it does, its limits, and how to read its output. Make sure they can understand the results.",
+        "guidanceText": "Give the people who operate the system clear instructions: what it does, its limits, and how to read its output. Make sure they can understand the results. High-risk deadline: 2 December 2027 for stand-alone systems listed in Annex III; 2 August 2028 for AI in products covered by Annex I.",
         "lawReferenceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj", "lawReferenceLabel": "AI Act Art. 13",
         "severity": "mandatory", "sortOrder": 5
       },
       {
         "code": "Art.14", "title": "Human oversight",
-        "guidanceText": "A person must be able to understand, watch over, and if needed stop or override the AI. Decide who that person is and how they can intervene.",
+        "guidanceText": "A person must be able to understand, watch over, and if needed stop or override the AI. Decide who that person is and how they can intervene. High-risk deadline: 2 December 2027 for stand-alone systems listed in Annex III; 2 August 2028 for AI in products covered by Annex I.",
         "lawReferenceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj", "lawReferenceLabel": "AI Act Art. 14",
         "severity": "mandatory", "sortOrder": 6
       },
       {
         "code": "Art.15", "title": "Accuracy, robustness and security",
-        "guidanceText": "Test that the system is accurate and stable enough for its purpose, and protect it against errors, misuse, and attacks. Record your test results.",
+        "guidanceText": "Test that the system is accurate and stable enough for its purpose, and protect it against errors, misuse, and attacks. Record your test results. High-risk deadline: 2 December 2027 for stand-alone systems listed in Annex III; 2 August 2028 for AI in products covered by Annex I.",
         "lawReferenceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj", "lawReferenceLabel": "AI Act Art. 15",
         "severity": "mandatory", "sortOrder": 7
       },
       {
         "code": "Art.50", "title": "Transparency about AI use",
-        "guidanceText": "Tell people when they are interacting with an AI, and clearly label AI-generated or manipulated content such as chatbots, synthetic media, and deepfakes.",
+        "guidanceText": "Tell people when they are interacting with an AI, and clearly label AI-generated or manipulated content such as chatbots, synthetic media, and deepfakes. Applies since 2 August 2026. For systems placed on the market before that date, machine-readable marking of AI-generated content (Art. 50(2)) is required from 2 December 2026.",
         "lawReferenceUrl": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj", "lawReferenceLabel": "AI Act Art. 50",
         "severity": "mandatory", "sortOrder": 8
       }
@@ -81,7 +81,7 @@
       },
       {
         "key": "ai_high_risk_obligations", "name": "High-Risk AI Obligations",
-        "description": "The full set of duties that apply when an AI system is classified as high-risk.",
+        "description": "The full set of duties that apply when an AI system is classified as high-risk. Deadlines: 2 December 2027 for stand-alone systems listed in Annex III, 2 August 2028 for AI in products covered by Annex I (moved from 2 August 2026 by the Digital Omnibus).",
         "appliesToRiskCategory": "high", "status": "published", "sortOrder": 3,
         "items": [
           { "title": "Maintain technical documentation", "requirementCode": "Art.11", "inputType": "longtext", "isRequired": true, "sortOrder": 1,
@@ -98,7 +98,7 @@
       },
       {
         "key": "ai_transparency_obligations", "name": "Transparency Obligations",
-        "description": "Duties for AI that interacts with people or generates content (limited-risk systems).",
+        "description": "Duties for AI that interacts with people or generates content (limited-risk systems). Applies since 2 August 2026.",
         "appliesToRiskCategory": "limited", "status": "published", "sortOrder": 4,
         "items": [
           { "title": "Tell users they are interacting with AI", "requirementCode": "Art.50", "inputType": "longtext", "isRequired": true, "sortOrder": 1,
@@ -109,7 +109,7 @@
       },
       {
         "key": "ai_prohibited_check", "name": "Prohibited Practice Review",
-        "description": "This system may fall under a banned AI practice. Review and document urgently.",
+        "description": "This system may fall under a banned AI practice. Review and document urgently. The bans on AI that generates child sexual abuse material or non-consensual intimate images apply from 2 December 2026.",
         "appliesToRiskCategory": "prohibited", "status": "published", "sortOrder": 5,
         "items": [
           { "title": "Confirm the system is not a banned practice", "inputType": "longtext", "isRequired": true, "sortOrder": 1,

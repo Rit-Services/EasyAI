@@ -23,14 +23,9 @@ export const HERO = {
     en: 'Built and hosted in the EU. Your data is encrypted, backed up, and yours to export or delete at any time.',
     de: 'Entwickelt und gehostet in der EU. Ihre Daten sind verschlüsselt, werden gesichert und lassen sich jederzeit exportieren oder löschen.',
   },
-  // "New" pill shown above the headline. 2 August 2026 is the real EU AI Act
-  // date (Regulation (EU) 2024/1689, Art. 113) on which most high-risk
-  // system obligations under Art. 8 to 15 start to apply.
+  // "New" pill shown above the headline, followed by the featured (or latest)
+  // entry from content/news.json (see Landing), so it never states an outdated date.
   badgeTag: { en: 'New', de: 'Neu' },
-  badgeText: {
-    en: 'EU AI Act: high-risk obligations apply from 2 August 2026',
-    de: 'EU AI Act: Pflichten für Hochrisiko-Systeme gelten ab 2. August 2026',
-  },
   // Short, segmented trust points shown as a dotted row under the CTAs.
   trustPoints: [
     { en: 'Free', de: 'Kostenlos' },
@@ -465,6 +460,7 @@ export const FOOTER = {
         { label: { en: 'How it works', de: 'So funktioniert es' }, to: '/welcome#how-it-works' },
         { label: { en: 'Documentation', de: 'Dokumentation' }, to: '/docs' },
         { label: { en: 'Frameworks', de: 'Regelwerke' }, to: '/welcome#frameworks' },
+        { label: { en: 'News', de: 'Neuigkeiten' }, to: '/news' },
         { label: { en: 'Security', de: 'Sicherheit' }, to: '/security' },
         { label: { en: 'GDPR', de: 'DSGVO' }, to: '/security#gdpr' },
       ],
@@ -575,8 +571,8 @@ export const CLASSIFICATION_DEMO = [
       de: 'Beispiel: ein Spamfilter, oder ein internes Werkzeug, das Tabellenzeilen sortiert.',
     },
     explanation: {
-      en: 'No banned practice, high-risk area, or transparency trigger applies. Minimal-risk systems carry no mandatory EU AI Act duties, though documenting your reasoning is still good practice.',
-      de: 'Keine verbotene Praktik, kein Hochrisikobereich und keine Transparenzpflicht greift. Für Systeme mit minimalem Risiko gelten keine Pflichten nach dem AI Act, eine kurze Dokumentation der Einschätzung bleibt trotzdem sinnvoll.',
+      en: 'No banned practice, high-risk area, or transparency trigger applies. One EU AI Act duty still applies to every system, minimal-risk ones included: AI literacy (Art. 4). Take suitable measures, such as a short training, so the people who build or use it understand what it does and where it can go wrong.',
+      de: 'Keine verbotene Praktik, kein Hochrisikobereich und keine Transparenzpflicht greift. Eine Pflicht nach dem AI Act gilt dennoch für jedes System, auch bei minimalem Risiko: KI-Kompetenz (Art. 4). Sorgen Sie mit geeigneten Maßnahmen, etwa einer kurzen Schulung, dafür, dass die Personen, die es entwickeln oder nutzen, verstehen, was es tut und wo es fehlgehen kann.',
     },
   },
 ];
@@ -930,6 +926,10 @@ export const DOCS_SECTIONS = [
       {
         en: '**Required items are marked clearly**: so you always know what is mandatory versus recommended.',
         de: '**Pflichtpunkte sind klar markiert**: Sie sehen jederzeit, was verpflichtend und was nur empfohlen ist.',
+      },
+      {
+        en: '**AI literacy for every system**: the AI Governance Baseline checklist is created for every AI system, minimal-risk ones included, and covers the AI literacy duty (Art. 4 EU AI Act): suitable measures, such as a short training, so the people who build or use the system understand it.',
+        de: '**KI-Kompetenz für jedes System**: Die Checkliste „KI-Governance-Grundlage“ wird für jedes KI-System angelegt, auch bei minimalem Risiko, und deckt die Pflicht zur KI-Kompetenz ab (Art. 4 KI-Verordnung): geeignete Maßnahmen, etwa eine kurze Schulung, damit die Personen, die das System entwickeln oder nutzen, es verstehen.',
       },
       {
         en: '**Autosave**: your documentation text saves automatically as you write it, with a visible confirmation.',
