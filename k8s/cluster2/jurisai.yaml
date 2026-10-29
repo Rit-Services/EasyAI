@@ -134,19 +134,18 @@ spec:
       targetPort: 4000
   type: ClusterIP
 ---
-# Monthly law watch (server/scripts/lawWatch.js): checks every law in the
-# catalog with the Claude proxy, has each proposed change confirmed by a second
-# check, applies the confirmed ones to content/*.json and publishes them as a
-# commit on k8s-deployment, which deploys them. Emails a summary to
-# LAW_WATCH_NOTIFY_EMAIL. Needs CLAUDE_PROXY_TOKEN and LAW_WATCH_GITHUB_TOKEN
-# (contents read/write on Rit-Services/EasyAI) in jurisai-app-secrets.
-# Run it now: kubectl -n jurisai create job --from=cronjob/jurisai-law-watch law-watch-manual
+# Fallback for the monthly law watch, SUSPENDED: it now runs in GitHub Actions
+# (.github/workflows/law-watch.yml), which needs no personal token. To use this
+# instead, put CLAUDE_PROXY_TOKEN and LAW_WATCH_GITHUB_TOKEN (contents read/write
+# on Rit-Services/EasyAI) in jurisai-app-secrets and set suspend: false.
+# Kept in the manifest because ArgoCD on cluster 2 does not prune removed objects.
 apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: jurisai-law-watch
   namespace: jurisai
 spec:
+  suspend: true
   schedule: "0 4 1 * *"
   timeZone: Europe/Berlin
   concurrencyPolicy: Forbid

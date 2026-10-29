@@ -5,16 +5,22 @@
    and publishes them as one commit on the deploy branch, which deploys them.
    Emails a summary of what changed, what was rejected and what it cost.
 
-   node scripts/lawWatch.js                    read + publish via GitHub (cron)
-   node scripts/lawWatch.js --local ../content  read + write a local content dir
+   node scripts/lawWatch.js --local ../content --git-push
+                                                write the content dir, commit and
+                                                push it (GitHub Actions, law-watch.yml)
+   node scripts/lawWatch.js --local ../content  write a local content dir only
+   node scripts/lawWatch.js                    read + publish via the GitHub API
+                                                (needs LAW_WATCH_GITHUB_TOKEN)
    add --dry-run to change nothing, --only k1,k2 to check just those laws,
    --no-discovery to skip the search for new laws.
 
    Env: CLAUDE_PROXY_TOKEN (required), LAW_WATCH_GITHUB_TOKEN, LAW_WATCH_REPO,
    LAW_WATCH_BRANCH, LAW_WATCH_NOTIFY_EMAIL, LAW_WATCH_MODEL, LAW_WATCH_EFFORT,
-   LAW_WATCH_CONCURRENCY. */
+   LAW_WATCH_CONCURRENCY. In GitHub Actions the run summary is also written to
+   GITHUB_STEP_SUMMARY. */
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('child_process');
 const logger = require('../utils/logger');
 const { askJson } = require('../services/lawWatch/claudeProxy');
 const github = require('../services/lawWatch/githubRepo');
@@ -145,6 +151,15 @@ async function main() {
     logger.info('law watch: dry run, nothing written');
   } else if (local) {
     for (const [p, text] of Object.entries(files)) fs.writeFileSync(path.join(local, path.basename(p)), text);
+    if (flag('--git-push') && report.files.length) {
+      // The CI checkout: commit the content files and push them to the branch.
+      const git = (...a) => execFileSync('git', a, { cwd: path.resolve(local, '..'), encoding: 'utf8' }).trim();
+      git('add', ...report.files);
+      git('commit', '-m', commitMessage(report));
+      git('push', 'origin', `HEAD:${env.branch}`);
+      report.commit = git('rev-parse', 'HEAD');
+      logger.info(`law watch: pushed commit ${report.commit}`);
+    }
   } else if (report.files.length) {
     report.commit = await repo.commitFiles({ parentSha: headSha, files, message: commitMessage(report) });
     logger.info(`law watch: published commit ${report.commit}`);
@@ -160,8 +175,27 @@ function commitMessage(r) {
   return lines.join('\n');
 }
 
+// Markdown run summary for the GitHub Actions run page.
+function stepSummary(fatal) {
+  const file = process.env.GITHUB_STEP_SUMMARY;
+  if (!file) return;
+  const src = (s) => s.map((x) => `[${x.label}](${x.url})`).join(', ');
+  const out = [`## Law watch ${report.today}${flag('--dry-run') ? ' (dry run)' : ''}`];
+  if (fatal) out.push(`**Stopped, nothing published:** ${fatal}`);
+  out.push(`Checked ${report.checked.length} laws · ${report.commit ? `published ${report.commit.slice(0, 7)}` : 'nothing published'} · cost $${report.costUsd.toFixed(2)}`);
+  if (report.updated.length) out.push('### Updated', ...report.updated.map((u) => `- **${u.key}**: ${u.summary} (${src(u.sources)})`));
+  if (report.newLaws.length) out.push('### New laws', ...report.newLaws.map((n) => `- **${n.name}** (${n.status === 'draft' ? 'watch list' : 'in force'}) (${src(n.sources)})`));
+  if (report.news.length) out.push('### News', ...report.news.map((n) => `- ${n.title.en}`));
+  if (report.rejected.length) out.push('### Not applied', ...report.rejected.map((x) => `- **${x.key}**: ${x.summary || ''} ${x.reason}`));
+  if (report.errors.length) out.push('### Errors', ...report.errors.map((x) => `- ${x.key}: ${x.reason}`));
+  fs.appendFileSync(file, `${out.join('\n')}\n`);
+}
+
 async function notify(fatal) {
-  if (!env.notify || flag('--dry-run') || option('--local')) return;
+  stepSummary(fatal);
+  // Email only for real publishing runs, not dry runs or local experiments.
+  const publishing = option('--local') ? flag('--git-push') : true;
+  if (!env.notify || flag('--dry-run') || !publishing) return;
   const emailService = require('../services/email/emailService');
   const esc = emailService.escapeHtml;
   const src = (s) => s.map((x) => `<a href="${esc(x.url)}">${esc(x.label)}</a>`).join(', ');

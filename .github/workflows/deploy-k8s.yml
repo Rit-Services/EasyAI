@@ -4,12 +4,15 @@ name: Build and Push JurisAI Images
 # Container Registry (ghcr.io, private), bumps the image tags in
 # k8s/jurisai-k8s.yaml, and pings ArgoCD to sync.
 # Auth uses the built-in GITHUB_TOKEN (no extra secret needed to push).
+# workflow_dispatch lets the monthly law watch (law-watch.yml) start a deploy
+# after it pushes content, since its GITHUB_TOKEN push triggers no workflow.
 on:
   push:
     branches: [k8s-deployment]
   pull_request:
     branches: [k8s-deployment]
     types: [closed]
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
@@ -78,7 +81,7 @@ jobs:
           platforms: linux/amd64
 
       - name: Update deployment manifest with new image tags
-        if: github.ref == 'refs/heads/k8s-deployment' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/k8s-deployment' && github.event_name != 'pull_request'
         run: |
           for f in k8s/jurisai-k8s.yaml k8s/cluster2/jurisai.yaml; do
             sed -i "s|image: ghcr.io/${{ env.IMAGE_OWNER }}/jurisai-server:.*|image: ghcr.io/${{ env.IMAGE_OWNER }}/jurisai-server:${{ steps.meta.outputs.VERSION }}|g" "$f"
@@ -92,7 +95,7 @@ jobs:
 
       - name: Trigger ArgoCD Webhook
         if: |
-          (github.ref == 'refs/heads/k8s-deployment' && github.event_name == 'push') ||
+          (github.ref == 'refs/heads/k8s-deployment' && github.event_name != 'pull_request') ||
           (github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'k8s-deployment')
         run: |
           curl -X POST https://argocd.rit.services/api/webhook \
