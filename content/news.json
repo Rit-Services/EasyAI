@@ -101,6 +101,7 @@
       }
     ],
     "featured": true,
+    "featuredUntil": "2027-11-30",
     "banner": {
       "en": "EU AI Act: high-risk obligations apply from 2 December 2027",
       "de": "EU AI Act: Pflichten für Hochrisiko-Systeme gelten ab 2. Dezember 2027"

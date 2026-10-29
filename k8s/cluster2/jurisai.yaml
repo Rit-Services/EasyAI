@@ -134,6 +134,66 @@ spec:
       targetPort: 4000
   type: ClusterIP
 ---
+# Monthly law watch (server/scripts/lawWatch.js): checks every law in the
+# catalog with the Claude proxy, has each proposed change confirmed by a second
+# check, applies the confirmed ones to content/*.json and publishes them as a
+# commit on k8s-deployment, which deploys them. Emails a summary to
+# LAW_WATCH_NOTIFY_EMAIL. Needs CLAUDE_PROXY_TOKEN and LAW_WATCH_GITHUB_TOKEN
+# (contents read/write on Rit-Services/EasyAI) in jurisai-app-secrets.
+# Run it now: kubectl -n jurisai create job --from=cronjob/jurisai-law-watch law-watch-manual
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: jurisai-law-watch
+  namespace: jurisai
+spec:
+  schedule: "0 4 1 * *"
+  timeZone: Europe/Berlin
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      activeDeadlineSeconds: 14400
+      template:
+        metadata:
+          labels:
+            app: jurisai-law-watch
+        spec:
+          restartPolicy: Never
+          imagePullSecrets:
+            - name: ghcr-secret
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+            seccompProfile: { type: RuntimeDefault }
+          containers:
+            - name: law-watch
+              image: ghcr.io/rit-services/jurisai-server:sha-c85fb5d1
+              imagePullPolicy: Always
+              command: ["node", "scripts/lawWatch.js"]
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities: { drop: ["ALL"] }
+              env:
+                - name: CLIENT_URL
+                  value: https://compliance.k8s.rit.services
+                - name: LAW_WATCH_NOTIFY_EMAIL
+                  value: compliance@rit.services
+              envFrom:
+                - secretRef:
+                    name: jurisai-app-secrets
+              volumeMounts:
+                - { name: tmp, mountPath: /tmp }
+              resources:
+                requests: { cpu: "50m", memory: "128Mi" }
+                limits: { cpu: "500m", memory: "512Mi" }
+          volumes:
+            - { name: tmp, emptyDir: {} }
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

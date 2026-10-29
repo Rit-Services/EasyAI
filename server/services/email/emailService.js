@@ -339,4 +339,6 @@ module.exports = {
   sendBreachNotificationEmail,
   buildCommunityPostEmail,
   sendCommunityPostEmail,
+  escapeHtml,
+  emailShell,
 };
