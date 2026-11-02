@@ -4,7 +4,7 @@ const validate = require('../middlewares/validationHandler');
 const { authHandler, requireRole, requirePermission } = require('../middlewares/authHandler');
 const ctrl = require('../controllers/identity/organizationController');
 const supportAccessCtrl = require('../controllers/identity/supportAccessController');
-const { updateOrganizationSchema, updateFunctionsSchema } = require('../validators/organizationValidator');
+const { updateOrganizationSchema, updateFunctionsSchema, acceptAvvSchema } = require('../validators/organizationValidator');
 const { createSupportAccessGrantSchema } = require('../validators/supportAccessValidator');
 
 const router = express.Router();
@@ -15,6 +15,7 @@ router.patch('/current', requireRole('owner', 'admin'), validate(updateOrganizat
 router.patch('/current/functions', requirePermission('compliance.edit'), validate(updateFunctionsSchema), asyncHandler(ctrl.updateFunctions));
 router.get('/current/members', asyncHandler(ctrl.listMembers));
 router.get('/current/avv', asyncHandler(ctrl.getAvv));
+router.post('/current/avv', requireRole('owner', 'admin'), validate(acceptAvvSchema), asyncHandler(ctrl.acceptAvv));
 router.get('/current/avv/pdf', asyncHandler(ctrl.avvPdf));
 
 router.get('/current/support-access', requireRole('owner', 'admin'), asyncHandler(supportAccessCtrl.list));

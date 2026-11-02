@@ -11,9 +11,10 @@ const path = require('path');
 // Section 18(a): "Fruehere Fassungen bleiben abrufbar").
 const AVV_VERSIONS = {
   '1.0': path.join(__dirname, '..', '..', 'legal', 'avv-v1.0.pdf'),
+  '1.1': path.join(__dirname, '..', '..', 'legal', 'avv-v1.1.pdf'),
 };
 
-const CURRENT_AVV_VERSION = '1.0';
+const CURRENT_AVV_VERSION = '1.1';
 
 function avvPdfPath(version) {
   const file = AVV_VERSIONS[version];

@@ -1,7 +1,10 @@
 const { prisma } = require('../../db/db');
 const ErrorResponse = require('../../utils/errorResponse');
 const { recordAudit } = require('../../utils/audit');
-const { avvPdfPath } = require('../../services/avv/avvService');
+const logger = require('../../utils/logger');
+const { clientIp } = require('../../utils/clientIp');
+const emailService = require('../../services/email/emailService');
+const { avvPdfPath, CURRENT_AVV_VERSION, getAvvPdfBuffer } = require('../../services/avv/avvService');
 
 // GET /api/organizations/current
 async function getCurrent(req, res) {
@@ -85,6 +88,68 @@ async function avvPdf(req, res) {
   res.sendFile(filePath);
 }
 
+// POST /api/organizations/current/avv  { organizationAddress, organizationLegalForm?, avvAccepted: true }
+// For organisations created before AVV acceptance became part of registration,
+// and for test accounts switching to production: records the acceptance exactly
+// as registration does (version, who accepted in which role, company details,
+// IP, user agent), then emails the signed copy.
+async function acceptAvv(req, res) {
+  if (!req.organizationId) throw new ErrorResponse('No organization for this account', 404);
+  const existing = await prisma.avvAcceptance.findFirst({
+    where: { organizationId: req.organizationId, supersededAt: null },
+  });
+  if (existing) throw new ErrorResponse('The Data Processing Agreement has already been accepted for this organization', 409);
+
+  const { organizationAddress, organizationLegalForm } = req.body;
+  const user = req.user;
+  const { org, acceptance } = await prisma.$transaction(async (tx) => {
+    const updated = await tx.organization.update({
+      where: { id: req.organizationId },
+      data: {
+        address: organizationAddress,
+        ...(organizationLegalForm !== undefined ? { legalForm: organizationLegalForm || null } : {}),
+        // Accepting the AVV makes a test account a regular one, without its limits.
+        accountType: 'production',
+      },
+    });
+    const created = await tx.avvAcceptance.create({
+      data: {
+        organizationId: updated.id,
+        version: CURRENT_AVV_VERSION,
+        acceptedByUserId: user.id,
+        acceptedByName: user.fullName,
+        acceptedByRole: user.role,
+        acceptedByEmail: user.email,
+        companyName: updated.name,
+        companyLegalForm: updated.legalForm,
+        companyAddress: updated.address,
+        ip: clientIp(req),
+        userAgent: req.headers?.['user-agent'] || null,
+      },
+    });
+    return { org: updated, acceptance: created };
+  });
+  await recordAudit({ req, action: 'avv.accepted', entityType: 'Organization', entityId: org.id, after: { version: CURRENT_AVV_VERSION } });
+
+  // Best-effort, as at registration: the acceptance is recorded and
+  // downloadable from Settings even if the email fails.
+  try {
+    const pdfBuffer = getAvvPdfBuffer(CURRENT_AVV_VERSION);
+    if (pdfBuffer) await emailService.sendAvvSignedEmail(user, org, CURRENT_AVV_VERSION, pdfBuffer);
+  } catch (err) {
+    logger.warn('AVV signed-copy email failed to send', err.message);
+  }
+
+  res.status(201).json({
+    avv: {
+      version: acceptance.version,
+      acceptedAt: acceptance.acceptedAt,
+      acceptedByName: acceptance.acceptedByName,
+      acceptedByRole: acceptance.acceptedByRole,
+    },
+  });
+}
+
 module.exports = {
-  getCurrent, updateCurrent, updateFunctions, listMembers, getAvv, avvPdf,
+  getCurrent, updateCurrent, updateFunctions, listMembers, getAvv, avvPdf, acceptAvv,
 };

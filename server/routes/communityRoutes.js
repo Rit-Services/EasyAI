@@ -1,7 +1,7 @@
 const express = require('express');
 const asyncHandler = require('../middlewares/asyncHandler');
 const validate = require('../middlewares/validationHandler');
-const { authHandler, requireOrg, requirePermission } = require('../middlewares/authHandler');
+const { authHandler, requireOrg, requirePermission, requireProductionAccount } = require('../middlewares/authHandler');
 const threads = require('../controllers/community/threadController');
 const posts = require('../controllers/community/postController');
 const {
@@ -11,8 +11,9 @@ const {
 const router = express.Router();
 router.use(authHandler, requireOrg);
 
-// Reads are open to any org member (incl. viewers); writes need compliance.edit.
-const canWrite = requirePermission('compliance.edit');
+// Reads are open to any org member (incl. viewers); writes need compliance.edit
+// and a production account (the community is read-only in a test account).
+const canWrite = [requirePermission('compliance.edit'), requireProductionAccount];
 
 // Threads
 router.get('/threads', validate(listThreadsSchema, 'query'), asyncHandler(threads.list));

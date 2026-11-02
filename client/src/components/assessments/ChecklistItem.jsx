@@ -5,6 +5,7 @@ import { documentApi } from '@/apis/documentApi';
 import { commentApi } from '@/apis/commentApi';
 import { useAuth } from '@/hooks/useAuth';
 import { useT } from '@/hooks/useT';
+import { useTestAccount } from '@/hooks/useTestAccount';
 import { StatusChip, SeverityChip } from '@/components/ui/Ui';
 import { statusLabel, STATUS_BTN_COLOR, bytes, fromNow, initials } from '@/utils/format';
 
@@ -14,6 +15,7 @@ export default function ChecklistItem({ response, members = [], onChanged }) {
   const item = response.templateItem;
   const { user, can } = useAuth();
   const canEdit = can('compliance.edit');
+  const { isTest } = useTestAccount();
   const { t, lang } = useT();
   const [status, setStatus] = useState(response.status);
   const [text, setText] = useState(response.responseText || '');
@@ -204,10 +206,12 @@ export default function ChecklistItem({ response, members = [], onChanged }) {
 
         {canEdit && (
           <div className="row" style={{ gap: 10, marginTop: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+            {!isTest && (
             <label className="btn btn-outline btn-sm" style={{ cursor: 'pointer' }}>
               {t('ci.attachDocument')}
               <input type="file" data-testid="attach-file" onChange={attach} style={{ display: 'none' }} aria-label={`${t('ci.attachDocument')} - ${item.title}`} />
             </label>
+            )}
             <label className="row small" style={{ gap: 6 }}>
               <span className="muted">{t('ci.assignee')}</span>
               <select className="select" data-testid="assignee-select" style={{ width: 160, padding: '5px 8px' }}

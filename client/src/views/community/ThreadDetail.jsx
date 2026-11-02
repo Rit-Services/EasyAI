@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Lock, Unlock, Trash2, Flag, Send } from 'lucide-react';
 import { threadApi } from '@/apis/threadApi';
 import { useT } from '@/hooks/useT';
+import { useTestAccount } from '@/hooks/useTestAccount';
 import { useAuth } from '@/hooks/useAuth';
 import { SkeletonPage, ErrorState, Card, Chip, Banner } from '@/components/ui/Ui';
 import VoteControl from '@/components/community/VoteControl';
@@ -15,7 +16,8 @@ export default function ThreadDetail() {
   const { id } = useParams();
   const { t, lang } = useT();
   const { can } = useAuth();
-  const canWrite = can('compliance.edit');
+  const { isTest } = useTestAccount();
+  const canWrite = can('compliance.edit') && !isTest;
   const qc = useQueryClient();
   const navigate = useNavigate();
   const [reply, setReply] = useState('');

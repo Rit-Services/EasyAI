@@ -15,6 +15,7 @@ import { Spinner } from '@/components/ui/Ui';
 import { useT } from '@/hooks/useT';
 import { FeedbackProvider } from '@rit-services/feedback-react';
 import MarketingLayout from '@/layouts/MarketingLayout';
+import TestAccountBanner from '@/components/TestAccountBanner';
 import Landing from '@/views/marketing/Landing';
 
 const TITLES = [
@@ -136,6 +137,7 @@ export default function AppLayout() {
         <div className="main">
           <Topbar title={pageTitle} orgName={org?.name} onMenu={() => setMenuOpen(true)} />
           <main id="main-content" className="content">
+            <TestAccountBanner />
             <ErrorBoundary key={location.pathname}>
               <Outlet />
             </ErrorBoundary>

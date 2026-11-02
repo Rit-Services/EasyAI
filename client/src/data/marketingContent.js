@@ -18,7 +18,9 @@ export const HERO = {
     de: 'Compliance Check macht aus dem EU AI Act, der DSGVO und 35 weiteren Gesetzen mit Bezug zu KI in Deutschland eine verständliche Checkliste für Ihr Unternehmen: Stufen Sie jedes KI-System ein, arbeiten Sie die passenden Anforderungen ab, dokumentieren Sie Ihre Nachweise, und werden Sie rechtzeitig vor einer fälligen Prüfung erinnert.',
   },
   ctaPrimary: { en: 'Start for free', de: 'Kostenlos starten' },
-  ctaSecondary: { en: 'Sign in', de: 'Anmelden' },
+  // Hero: the Test / Production choice from the very start (Test = no AVV).
+  ctaProduction: { en: 'Start for production', de: 'Für den Produktivbetrieb starten' },
+  ctaTest: { en: 'Test for free (no contract)', de: 'Kostenlos testen (ohne Vertrag)' },
   trustLine: {
     en: 'Built and hosted in the EU. Your data is encrypted, backed up, and yours to export or delete at any time.',
     de: 'Entwickelt und gehostet in der EU. Ihre Daten sind verschlüsselt, werden gesichert und lassen sich jederzeit exportieren oder löschen.',
@@ -30,7 +32,7 @@ export const HERO = {
   trustPoints: [
     { en: 'Free', de: 'Kostenlos' },
     { en: 'Own servers in the EU', de: 'Eigene Server in der EU' },
-    { en: 'DPA at registration', de: 'AVV bei Registrierung' },
+    { en: 'DPA for production use', de: 'AVV für den Produktivbetrieb' },
   ],
 };
 
@@ -694,8 +696,8 @@ export const GDPR_SECTIONS = [
     // `link.text[lang]`, by StraightRow in Security.jsx. Kept as a token
     // here rather than JSX so this file stays plain, serialisable content.
     a: {
-      en: 'Our Data Processing Agreement pursuant to Art. 28 GDPR is publicly available at {LINK}, including a PDF download. Every organization concludes it during registration, and the signed version can be downloaded at any time in the organization settings.',
-      de: 'Unser Auftragsverarbeitungsvertrag nach Art. 28 DSGVO ist öffentlich verfügbar unter {LINK}, einschließlich PDF-Download. Jede Organisation schließt ihn bei der Registrierung ab, und die unterzeichnete Fassung kann jederzeit in den Organisationseinstellungen heruntergeladen werden.',
+      en: 'Our Data Processing Agreement pursuant to Art. 28 GDPR is publicly available at {LINK}, including a PDF download. Every production account concludes it during registration, and the signed version can be downloaded at any time in the organization settings. Test accounts have no AVV: no real personal data may be entered in them.',
+      de: 'Unser Auftragsverarbeitungsvertrag nach Art. 28 DSGVO ist öffentlich verfügbar unter {LINK}, einschließlich PDF-Download. Jedes Produktivkonto schließt ihn bei der Registrierung ab, und die unterzeichnete Fassung kann jederzeit in den Organisationseinstellungen heruntergeladen werden. Testkonten haben keinen AVV: In ihnen dürfen keine echten personenbezogenen Daten eingegeben werden.',
     },
     link: {
       to: '/avv',

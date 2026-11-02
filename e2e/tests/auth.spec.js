@@ -7,10 +7,13 @@ test.describe('Auth module', () => {
     const password = 'Test12345!';
 
     await page.goto('/register');
+    await page.getByTestId('mode-production').check();
     await page.getByTestId('fullName').fill('Ada Lovelace');
     await page.getByTestId('organizationName').fill('Analytical Engines GmbH');
+    await page.getByTestId('organizationAddress').fill('Musterstraße 1, 50667 Köln');
     await page.getByTestId('email').fill(email);
     await page.getByTestId('password').fill(password);
+    await page.getByTestId('avvAccepted').check();
     await page.getByTestId('submit').click();
     await expect(page.getByTestId('register-success')).toBeVisible();
 
@@ -25,7 +28,9 @@ test.describe('Auth module', () => {
   test('login is blocked before email verification', async ({ page }) => {
     const email = uniqueEmail('unverified');
     const password = 'Test12345!';
-    await page.request.post('/api/auth/register', { data: { fullName: 'Unverified', email, password } });
+    await page.request.post('/api/auth/register', {
+      data: { fullName: 'Unverified', email, password, organizationAddress: 'Musterstraße 1, 50667 Köln', avvAccepted: true },
+    });
 
     await page.goto('/login');
     await page.getByTestId('email').fill(email);

@@ -9,6 +9,7 @@ const emailService = require('../../services/email/emailService');
 const { permissionsFor } = require('../../utils/permissions');
 const { clientIp } = require('../../utils/clientIp');
 const { CURRENT_AVV_VERSION, getAvvPdfBuffer } = require('../../services/avv/avvService');
+const { createSampleData } = require('../../services/testAccount/testAccountService');
 
 const VERIFY_TTL_MS = 24 * 60 * 60 * 1000; // 24h
 const RESET_TTL_MS = 60 * 60 * 1000; // 1h
@@ -59,14 +60,21 @@ async function issueVerification(user) {
 async function register(req, res) {
   const {
     fullName, email, password, organizationName,
-    organizationLegalForm, organizationAddress, avvAccepted,
+    organizationLegalForm, organizationAddress, avvAccepted, accountType, noRealDataConfirmed, lang,
   } = req.body;
+  // A test account is an evaluation without a contract: no AVV and no company
+  // address. The tester's confirmation that no real personal data may be entered
+  // is what makes that possible, so it is required and recorded.
+  const isTest = accountType === 'test';
+  if (isTest && noRealDataConfirmed !== true) {
+    throw new ErrorResponse('Please confirm that no real personal data may be entered in a test account', 422);
+  }
 
-  // Belt and braces: the schema already requires avvAccepted === true
-  // (Zod literal), but the AVV itself (Section 5.1) calls this a mandatory,
-  // blocking condition for creating an organisation at all, so it is checked
-  // again here rather than trusted to validation alone.
-  if (!avvAccepted) throw new ErrorResponse('You must accept the Data Processing Agreement (AVV) to create an account', 422);
+  // Belt and braces: the schema already requires avvAccepted === true for
+  // production accounts, but the AVV itself (Section 5.1) calls this a mandatory,
+  // blocking condition, so it is checked again here rather than trusted to
+  // validation alone.
+  if (!isTest && !avvAccepted) throw new ErrorResponse('You must accept the Data Processing Agreement (AVV) to create an account', 422);
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) throw new ErrorResponse('An account with that email already exists', 409);
@@ -75,8 +83,8 @@ async function register(req, res) {
   const orgName = organizationName?.trim() || `${fullName.split(' ')[0]}'s Organization`;
 
   // Organisation, owning user, and the AVV acceptance record are created
-  // together: an organisation should never exist without either a user or a
-  // recorded AVV acceptance (previously org and user creation were two
+  // together: a production organisation should never exist without either a
+  // user or a recorded AVV acceptance (previously org and user creation were two
   // unguarded sequential writes, so a failure between them could orphan an
   // organisation with no owner; the transaction closes that gap too).
   const { org, user } = await prisma.$transaction(async (tx) => {
@@ -84,7 +92,9 @@ async function register(req, res) {
       data: {
         name: orgName,
         legalForm: organizationLegalForm?.trim() || null,
-        address: organizationAddress.trim(),
+        ...(isTest
+          ? { accountType: 'test', testConfirmedAt: new Date(), testConfirmedByEmail: email }
+          : { address: organizationAddress.trim() }),
       },
     });
     const createdUser = await tx.user.create({
@@ -96,7 +106,7 @@ async function register(req, res) {
         organizationId: createdOrg.id,
       },
     });
-    await tx.avvAcceptance.create({
+    if (!isTest) await tx.avvAcceptance.create({
       data: {
         organizationId: createdOrg.id,
         version: CURRENT_AVV_VERSION,
@@ -116,16 +126,24 @@ async function register(req, res) {
 
   await issueVerification(user);
   await recordAudit({ req, action: 'auth.register', entityType: 'User', entityId: user.id });
-  await recordAudit({ req, action: 'avv.accepted', entityType: 'Organization', entityId: org.id, after: { version: CURRENT_AVV_VERSION } });
+  if (isTest) {
+    await recordAudit({ req, action: 'org.test_account_started', entityType: 'Organization', entityId: org.id, after: { noRealDataConfirmed: true } });
+    // Best-effort: an empty test account still works.
+    await createSampleData({ organizationId: org.id, userId: user.id, lang }).catch((err) => {
+      logger.warn('test account: sample data failed', err.message);
+    });
+  } else {
+    await recordAudit({ req, action: 'avv.accepted', entityType: 'Organization', entityId: org.id, after: { version: CURRENT_AVV_VERSION } });
 
-  // Best-effort, matching issueVerification's own pattern: a failed email
-  // here must not fail registration, the acceptance is already durably
-  // recorded and downloadable from Settings regardless.
-  try {
-    const pdfBuffer = getAvvPdfBuffer(CURRENT_AVV_VERSION);
-    if (pdfBuffer) await emailService.sendAvvSignedEmail(user, org, CURRENT_AVV_VERSION, pdfBuffer);
-  } catch (err) {
-    logger.warn('AVV signed-copy email failed to send', err.message);
+    // Best-effort, matching issueVerification's own pattern: a failed email
+    // here must not fail registration, the acceptance is already durably
+    // recorded and downloadable from Settings regardless.
+    try {
+      const pdfBuffer = getAvvPdfBuffer(CURRENT_AVV_VERSION);
+      if (pdfBuffer) await emailService.sendAvvSignedEmail(user, org, CURRENT_AVV_VERSION, pdfBuffer);
+    } catch (err) {
+      logger.warn('AVV signed-copy email failed to send', err.message);
+    }
   }
 
   res.status(201).json({

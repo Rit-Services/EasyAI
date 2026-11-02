@@ -26,6 +26,8 @@ test.describe('Documents module', () => {
     await createClassifiedSystem(page, { name: 'Doc AI', answers: { interacts_with_people: true } });
     await page.goto('/assessments');
     await page.getByTestId('assessment-row').first().getByRole('link', { name: 'Open' }).click();
+    // Checklist points open one at a time.
+    await page.getByRole('button', { name: 'Open', exact: true }).first().click();
 
     const item = page.getByTestId('checklist-item').first();
     await item.getByTestId('attach-file').setInputFiles({

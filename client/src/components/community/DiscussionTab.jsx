@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Plus, Search, X } from 'lucide-react';
 import { threadApi } from '@/apis/threadApi';
 import { useT } from '@/hooks/useT';
+import { useTestAccount } from '@/hooks/useTestAccount';
 import { useAuth } from '@/hooks/useAuth';
 import { SkeletonPage, ErrorState, EmptyState } from '@/components/ui/Ui';
 import ThreadList from './ThreadList';
@@ -17,7 +18,8 @@ const SCOPES = ['all', 'global', 'org'];
 export default function DiscussionTab({ frameworkKey, compact = false }) {
   const { t, lang } = useT();
   const { can } = useAuth();
-  const canWrite = can('compliance.edit');
+  const { isTest } = useTestAccount();
+  const canWrite = can('compliance.edit') && !isTest;
   const qc = useQueryClient();
   const navigate = useNavigate();
   const [sort, setSort] = useState('hot');
@@ -80,6 +82,7 @@ export default function DiscussionTab({ frameworkKey, compact = false }) {
           <span className="filter-sep" />
           {SCOPES.map((s) => pill(s, scope, setScope, t(`com.scope.${s}`)))}
         </div>
+        {isTest && <span className="muted small" data-testid="test-community-readonly">{t('test.communityReadOnly')}</span>}
         {canWrite && (
           <button className="btn btn-primary btn-sm" data-testid="new-thread" onClick={() => setShowForm((v) => !v)}>
             <Plus size={15} /> {frameworkKey ? t('com.start') : t('com.new')}

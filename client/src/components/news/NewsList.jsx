@@ -19,7 +19,7 @@ export default function NewsList({ items, lawLink }) {
   return (
     <div className="stack" style={{ gap: 14 }}>
       {items.map((item) => (
-        <article key={item.id} id={item.id} className="card" data-testid="news-item">
+        <article key={item.id} id={item.id} className="card" data-testid="news-item" style={{ scrollMarginTop: 90 }}>
           <div className="card-body">
             <time className="eyebrow" dateTime={item.date}>{formatContentDate(item.date, lang)}</time>
             <h2 style={{ fontSize: 18, lineHeight: 1.35, margin: '6px 0 8px' }}>{item.title[lang] || item.title.en}</h2>

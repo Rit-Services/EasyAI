@@ -76,7 +76,7 @@ const PAGES = [
     route: '/avv',
     outFile: 'avv.html',
     title: 'Data Processing Agreement (AVV) | Compliance Check',
-    description: 'The Art. 28 GDPR data processing agreement for Compliance Check: what it covers, how it applies automatically at registration, and a full downloadable PDF including the named sub-processor list.',
+    description: 'The Art. 28 GDPR data processing agreement for Compliance Check: what it covers, how it applies when you register for production use, and a full downloadable PDF including the named sub-processor list.',
     canonical: `${SITE}/avv`,
   },
   {

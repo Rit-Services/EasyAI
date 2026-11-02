@@ -3,12 +3,12 @@ import { ArrowRight } from 'lucide-react';
 import { useLangStore } from '@/store/langStore';
 import { highlightTerms } from '@/utils/highlightTerms';
 
-const LAST_REVIEWED = { en: '7 September 2026', de: '7. September 2026' };
+const LAST_REVIEWED = { en: '2 November 2026', de: '2. November 2026' };
 // Public, unauthenticated, versioned template: the same file every visitor
 // gets, whether or not they have an account. The signed, organisation-
 // specific copy lives behind auth at /api/organizations/current/avv/pdf,
 // linked from Settings instead.
-const AVV_PDF_URL = '/api/dpa/versions/1.0.pdf';
+const AVV_PDF_URL = '/api/dpa/versions/1.1.pdf';
 
 export default function Avv() {
   const lang = useLangStore((s) => s.lang);
@@ -24,8 +24,8 @@ export default function Avv() {
           </h1>
           <p className="mkt-lead" style={{ textAlign: 'left', margin: '16px 0 0' }}>
             {de
-              ? highlightTerms('Dieser Vertrag nach Art. 28 DSGVO regelt, wie RIT Services personenbezogene Daten im Auftrag Ihres Unternehmens verarbeitet, wenn Sie Compliance Check nutzen. Er wird automatisch bei der Registrierung geschlossen, Sie müssen nichts gesondert unterschreiben. Nach der Anmeldung finden Sie Ihre eigene, unterzeichnete Fassung jederzeit zum Download in den Einstellungen.')
-              : highlightTerms('This Art. 28 GDPR contract sets out how RIT Services processes personal data on your company\'s behalf when you use Compliance Check. It is concluded automatically during registration, there is nothing separate to sign. Once you have an account, your own signed copy is always downloadable from Settings.')}
+              ? highlightTerms('Dieser Vertrag nach Art. 28 DSGVO regelt, wie RIT Services personenbezogene Daten im Auftrag Ihres Unternehmens verarbeitet, wenn Sie Compliance Check nutzen. Er wird bei der Registrierung für den Produktivbetrieb geschlossen, Sie müssen nichts gesondert unterschreiben. Testkonten haben keinen AVV, dort dürfen keine echten personenbezogenen Daten eingegeben werden. Nach der Anmeldung finden Sie Ihre eigene, unterzeichnete Fassung jederzeit zum Download in den Einstellungen.')
+              : highlightTerms('This Art. 28 GDPR contract sets out how RIT Services processes personal data on your company\'s behalf when you use Compliance Check. It is concluded when you register for production use, there is nothing separate to sign. Test accounts have no AVV, and no real personal data may be entered in them. Once you have an account, your own signed copy is always downloadable from Settings.')}
           </p>
           <p className="muted small" style={{ marginTop: 12 }} data-testid="avv-last-reviewed">
             {de ? 'Stand' : 'Last reviewed'}: {LAST_REVIEWED[lang]}
@@ -60,8 +60,8 @@ export default function Avv() {
 
           <p className="muted small" style={{ marginTop: 24, maxWidth: 620 }}>
             {de
-              ? 'Dies ist die aktuelle Vorlage, Version 1.0. Ihre eigene unterzeichnete Fassung, mit Ihren Firmendaten und dem Zeitpunkt der Annahme, finden Sie nach der Anmeldung in den Einstellungen.'
-              : 'This is the current template, version 1.0. Your own signed copy, with your company details and acceptance timestamp, is available from Settings once you are signed in.'}
+              ? 'Dies ist die aktuelle Vorlage, Version 1.1. Ihre eigene unterzeichnete Fassung, mit Ihren Firmendaten und dem Zeitpunkt der Annahme, finden Sie nach der Anmeldung in den Einstellungen.'
+              : 'This is the current template, version 1.1. Your own signed copy, with your company details and acceptance timestamp, is available from Settings once you are signed in.'}
           </p>
         </div>
       </section>

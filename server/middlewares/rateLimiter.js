@@ -43,4 +43,18 @@ const loginLimiter = rateLimit({
   }),
 });
 
-module.exports = { authLimiter, loginLimiter };
+// Test accounts need no contract, which makes them the cheap thing to mass-create.
+// authLimiter keys on the email, so it cannot catch many addresses from one place;
+// this caps test sign-ups per source. Behind the cluster's SNAT that source is
+// shared, so the limit is effectively global: keep it generous, tune with TEST_SIGNUP_MAX.
+const testSignupLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: parseInt(process.env.TEST_SIGNUP_MAX || '30', 10),
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => req.body?.accountType !== 'test',
+  keyGenerator: (req) => `test-signup:${ipKeyGenerator(req.ip)}`,
+  handler: json429,
+});
+
+module.exports = { authLimiter, loginLimiter, testSignupLimiter };

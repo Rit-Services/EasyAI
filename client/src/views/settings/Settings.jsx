@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useLocation } from 'react-router-dom';
 import { organizationApi } from '@/apis/organizationApi';
 import { supportAccessApi } from '@/apis/supportAccessApi';
 import { reminderApi } from '@/apis/reminderApi';
@@ -12,12 +13,14 @@ import Pagination, { usePagination } from '@/components/ui/Pagination';
 import { formatDate, initials } from '@/utils/format';
 import MfaCard from '@/components/settings/MfaCard';
 import PrivacyCard from '@/components/settings/PrivacyCard';
+import AvvAcceptForm from '@/components/settings/AvvAcceptForm';
 
 export default function Settings() {
   const qc = useQueryClient();
   const { t } = useT();
   const { user, can } = useAuth();
   const canManage = can('members.manage');
+  const { hash } = useLocation();
   const roleLabel = (r) => t(`set.r.${r}`) === `set.r.${r}` ? (r || '').replace('_', ' ') : t(`set.r.${r}`);
   const ROLE_CAPABILITIES = [
     ['owner', t('set.capOwner')],
@@ -27,6 +30,11 @@ export default function Settings() {
   ];
 
   const { data: org, isLoading } = useQuery({ queryKey: ['organization'], queryFn: organizationApi.current });
+  const isTestAccount = org?.accountType === 'test';
+  // The test-account banner links to the AVV card (/settings#avv).
+  useEffect(() => {
+    if (hash && !isLoading) document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'start' });
+  }, [hash, isLoading]);
   const { data: members = [] } = useQuery({ queryKey: ['members'], queryFn: organizationApi.members });
   const { data: reminders = [] } = useQuery({ queryKey: ['reminders'], queryFn: reminderApi.list });
   const { data: invitations = [] } = useQuery({ queryKey: ['invitations'], queryFn: invitationApi.list, enabled: canManage });
@@ -158,13 +166,23 @@ export default function Settings() {
           </form>
         </Card>
 
-        <Card title={t('set.avvTitle')} variant="ruled" data-testid="avv-card">
+        <Card id="avv" title={t('set.avvTitle')} variant="ruled" data-testid="avv-card" style={{ scrollMarginTop: 90 }}>
           {avv ? (
             <p className="small">
               {t('set.avvVersion')} {avv.version} · {t('set.avvAcceptedBy')} {avv.acceptedByName} ({roleLabel(avv.acceptedByRole)}) · {t('set.avvAcceptedOn')} {formatDate(avv.acceptedAt)}
             </p>
           ) : (
-            <p className="muted small" data-testid="avv-not-found">{t('set.avvNotFound')}</p>
+            <>
+              {!isTestAccount && <p className="muted small" data-testid="avv-not-found">{t('set.avvNotFound')}</p>}
+              {isTestAccount && org.testConfirmedAt && (
+                <p className="muted small" data-testid="test-confirmed">
+                  {t('test.confirmed').replace('{date}', formatDate(org.testConfirmedAt)).replace('{email}', org.testConfirmedByEmail)}
+                </p>
+              )}
+              {canManage
+                ? <AvvAcceptForm org={org} />
+                : <p className="muted small">{t('set.avvAskAdmin')}</p>}
+            </>
           )}
           <div className="row" style={{ gap: 10, marginTop: 4, flexWrap: 'wrap' }}>
             {avv && (
@@ -259,7 +277,13 @@ export default function Settings() {
           </Card>
         )}
 
-        {canManage && (
+        {canManage && isTestAccount && (
+          <Card title={t('set.invite')} variant="ruled">
+            <p className="muted small" style={{ margin: 0 }} data-testid="test-no-invites">{t('test.noInvites')}</p>
+          </Card>
+        )}
+
+        {canManage && !isTestAccount && (
           <Card title={t('set.invite')} variant="ruled">
             {memberError && <Banner kind="error">{memberError}</Banner>}
             {inviteLink && (

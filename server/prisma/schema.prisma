@@ -32,6 +32,13 @@ model Organization {
   // pseudonymised regardless, but the org can refuse it outright. Default
   // "no", matching the AVV's own stated default.
   allowNonEuSupportAccess Boolean @default(false)
+  // "production" (the AVV applies) or "test": an evaluation account without an
+  // AVV. The tester confirms at sign-up that no real personal data may be entered
+  // (testConfirmedAt/ByEmail keep the record), and uploads, invitations and
+  // community posting are blocked.
+  accountType          String    @default("production")
+  testConfirmedAt      DateTime?
+  testConfirmedByEmail String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

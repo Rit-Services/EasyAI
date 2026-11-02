@@ -16,4 +16,12 @@ const updateFunctionsSchema = z.object({
   selectedFunctions: z.array(z.string().max(60)).max(100),
 });
 
-module.exports = { updateOrganizationSchema, updateFunctionsSchema };
+// Accepting the AVV after registration (organisations created before the AVV
+// was part of sign-up). Same fields and rules as the registration form.
+const acceptAvvSchema = z.object({
+  organizationAddress: z.string().trim().min(4, 'Address is required to accept the Data Processing Agreement').max(300),
+  organizationLegalForm: z.string().trim().max(80).optional(),
+  avvAccepted: z.literal(true, { message: 'You must accept the Data Processing Agreement (AVV) to continue' }),
+});
+
+module.exports = { updateOrganizationSchema, updateFunctionsSchema, acceptAvvSchema };

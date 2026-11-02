@@ -95,7 +95,7 @@ describe('register (AVV acceptance)', () => {
 
     const acceptance = state.avvAcceptances[0];
     expect(acceptance.organizationId).toBe(org.id);
-    expect(acceptance.version).toBe('1.0');
+    expect(acceptance.version).toBe('1.1');
     expect(acceptance.acceptedByUserId).toBe(user.id);
     expect(acceptance.acceptedByName).toBe('Jane Doe');
     expect(acceptance.acceptedByRole).toBe('owner');
@@ -152,7 +152,7 @@ describe('register (AVV acceptance)', () => {
     const [emailedUser, emailedOrg, version, pdfBuffer] = spy.mock.calls[0];
     expect(emailedUser.email).toBe('jane@example.com');
     expect(emailedOrg.name).toBe('Acme GmbH');
-    expect(version).toBe('1.0');
+    expect(version).toBe('1.1');
     expect(Buffer.isBuffer(pdfBuffer)).toBe(true);
     expect(pdfBuffer.length).toBeGreaterThan(0);
     spy.mockRestore();

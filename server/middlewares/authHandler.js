@@ -51,4 +51,16 @@ const requirePermission = (action) => (req, res, next) => {
   return next();
 };
 
-module.exports = { authHandler, requireRole, requireOrg, requirePermission };
+// requireProductionAccount -> blocks what a test account (no AVV) may not use:
+// features that would bring real personal data into the platform.
+const requireProductionAccount = asyncHandler(async (req, res, next) => {
+  const org = req.organizationId
+    ? await prisma.organization.findUnique({ where: { id: req.organizationId }, select: { accountType: true } })
+    : null;
+  if (org?.accountType === 'test') {
+    throw new ErrorResponse('This is not available in a test account. Switch to production in Settings to use it.', 403);
+  }
+  next();
+});
+
+module.exports = { authHandler, requireRole, requireOrg, requirePermission, requireProductionAccount };

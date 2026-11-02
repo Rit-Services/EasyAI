@@ -4,12 +4,14 @@ import { SkeletonPage, ErrorState, EmptyState } from '@/components/ui/Ui';
 import Pagination, { usePagination } from '@/components/ui/Pagination';
 import { formatDate, bytes } from '@/utils/format';
 import { useT } from '@/hooks/useT';
+import { useTestAccount } from '@/hooks/useTestAccount';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function Documents() {
   const { t } = useT();
   const { can } = useAuth();
   const canEdit = can('compliance.edit');
+  const { isTest } = useTestAccount();
   const qc = useQueryClient();
   const { data: documents = [], isLoading, error, refetch } = useQuery({ queryKey: ['documents'], queryFn: documentApi.list });
   const { page, setPage, pageItems, pageCount, total, pageSize } = usePagination(documents, 10);
@@ -38,7 +40,8 @@ export default function Documents() {
           <h1>{t('doc.title')}</h1>
           <p className="sub">{t('doc.sub')}</p>
         </div>
-        {canEdit && (
+        {isTest && <p className="muted small" data-testid="test-no-uploads">{t('test.noUploads')}</p>}
+        {canEdit && !isTest && (
           <label className="btn btn-primary" style={{ cursor: 'pointer' }}>
             {t('doc.upload')}
             <input type="file" data-testid="upload-file" onChange={upload} style={{ display: 'none' }} />

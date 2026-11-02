@@ -130,10 +130,10 @@ export default function Landing() {
           <h1 className="mkt-h1" style={{ marginTop: 22 }}>{HERO.title[lang]}</h1>
           <p className="mkt-lead">{HERO.subtitle[lang]}</p>
           <div className="row" style={{ gap: 12, marginTop: 26, justifyContent: 'center', flexWrap: 'wrap', position: 'relative', zIndex: 2 }}>
-            <Link to="/register" className="btn btn-primary" data-testid="mkt-cta-primary">
-              {HERO.ctaPrimary[lang]} <ArrowRight size={16} />
+            <Link to="/register?mode=production" className="btn btn-primary" data-testid="mkt-cta-primary">
+              {HERO.ctaProduction[lang]} <ArrowRight size={16} />
             </Link>
-            <Link to="/login" className="btn btn-outline" data-testid="mkt-cta-secondary">{HERO.ctaSecondary[lang]}</Link>
+            <Link to="/register?mode=test" className="btn btn-outline" data-testid="mkt-cta-test">{HERO.ctaTest[lang]}</Link>
           </div>
           <div className="mkt-hero-trust">
             {HERO.trustPoints.map((p, i) => (
