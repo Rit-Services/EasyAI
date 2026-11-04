@@ -279,8 +279,8 @@ spec:
           type: Utilization
           averageUtilization: 70
 ---
-# HTTP-01: issuance only succeeds once DNS for compliance.k8s.rit.services points
-# at cluster 2. Until then it stays pending, which is harmless.
+# HTTP-01: issuance only succeeds while port 80 for both names reaches cluster 2,
+# which the shared HAProxy does. If one fails, the whole certificate stays pending.
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -290,6 +290,7 @@ spec:
   secretName: jurisai-tls
   dnsNames:
     - compliance.k8s.rit.services
+    - compliance.rit.services
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
@@ -306,6 +307,16 @@ spec:
   entryPoints:
     - websecure
   routes:
+    - match: Host(`compliance.rit.services`) && (PathPrefix(`/api`) || PathPrefix(`/uploads`))
+      kind: Rule
+      services:
+        - name: jurisai-server
+          port: 4000
+    - match: Host(`compliance.rit.services`)
+      kind: Rule
+      services:
+        - name: jurisai-client
+          port: 80
     - match: Host(`compliance.k8s.rit.services`) && (PathPrefix(`/api`) || PathPrefix(`/uploads`))
       kind: Rule
       services:
@@ -341,6 +352,13 @@ spec:
   entryPoints:
     - web
   routes:
+    - match: Host(`compliance.rit.services`)
+      kind: Rule
+      middlewares:
+        - name: jurisai-redirect-https
+      services:
+        - name: jurisai-client
+          port: 80
     - match: Host(`compliance.k8s.rit.services`)
       kind: Rule
       middlewares:
