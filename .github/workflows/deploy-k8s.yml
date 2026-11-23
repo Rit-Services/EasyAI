@@ -59,6 +59,8 @@ jobs:
           context: .
           file: ./server/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
+          # Always reinstall Alpine's security fixes (see server/Dockerfile).
+          no-cache-filters: runtime
           tags: |
             ghcr.io/${{ env.IMAGE_OWNER }}/jurisai-server:latest
             ghcr.io/${{ env.IMAGE_OWNER }}/jurisai-server:${{ steps.meta.outputs.VERSION }}

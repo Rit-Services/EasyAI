@@ -26,11 +26,14 @@ RUN npx prisma generate
 COPY server/ ./
 
 # --- Runtime stage ---
-FROM node:20-alpine
+FROM node:20-alpine AS runtime
 
-# npm, npx, yarn and corepack are removed: the server never runs them, and the
-# packages they bundle carry known CVEs. The start command calls node directly.
-RUN apk add --no-cache openssl \
+# The base image lags behind Alpine's security fixes, so install them here; CI
+# always rebuilds this stage (no-cache-filters in deploy-k8s.yml). npm, npx, yarn
+# and corepack are removed: the server never runs them, and the packages they
+# bundle carry known CVEs. The start command calls node directly.
+RUN apk upgrade --no-cache \
+ && apk add --no-cache openssl \
  && rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack \
            /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack \
            /usr/local/bin/yarn /usr/local/bin/yarnpkg /opt/yarn-*
