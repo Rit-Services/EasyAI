@@ -59,7 +59,7 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           EMAIL_FROM: Compliance Check <no-reply@process.rit.services>
           LAW_WATCH_NOTIFY_EMAIL: compliance@rit.services
-          CLIENT_URL: https://compliance.k8s.rit.services
+          CLIENT_URL: https://compliance.rit.services
           LAW_WATCH_BRANCH: k8s-deployment
           DRY_RUN: ${{ inputs.dry_run }}
           ONLY: ${{ inputs.only }}
