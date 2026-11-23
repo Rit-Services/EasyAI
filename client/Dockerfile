@@ -22,7 +22,15 @@ RUN cd client && npm run build
 # nginx-unprivileged runs as uid 101 and keeps its pid/temp files in /tmp, so it
 # works with a read-only root filesystem. It still listens on port 80: the pod
 # sets the net.ipv4.ip_unprivileged_port_start sysctl (see k8s manifests).
-FROM nginxinc/nginx-unprivileged:1.30-alpine
+FROM nginxinc/nginx-unprivileged:1.30-alpine AS runtime
+
+# The upstream image lags behind Alpine's security fixes, so install them here.
+# CI always rebuilds this stage (no-cache-filters in deploy-k8s.yml) so a cached
+# layer cannot keep old packages. curl only comes with the upstream image; nothing
+# here uses it (the probes are HTTP), so it and the libraries it pulls in go.
+USER root
+RUN apk upgrade --no-cache && apk del --no-cache curl
+
 COPY client/nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/client/dist /usr/share/nginx/html
 USER 101
