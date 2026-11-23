@@ -8,4 +8,9 @@ const updateRoleSchema = z.object({
   role: z.enum(['owner', 'admin', 'member', 'viewer']),
 });
 
-module.exports = { updateMeSchema, updateRoleSchema };
+const updatePreferencesSchema = z.object({
+  language: z.enum(['en', 'de']).optional(),
+  theme: z.enum(['light', 'dark']).optional(),
+}).refine((v) => v.language || v.theme, { message: 'Nothing to update' });
+
+module.exports = { updateMeSchema, updateRoleSchema, updatePreferencesSchema };

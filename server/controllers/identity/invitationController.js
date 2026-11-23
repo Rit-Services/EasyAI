@@ -13,6 +13,7 @@ function publicUser(user) {
   return {
     id: user.id, email: user.email, fullName: user.fullName, role: user.role,
     organizationId: user.organizationId, emailVerified: Boolean(user.emailVerifiedAt),
+    language: user.language, theme: user.theme,
     permissions: permissionsFor(user.role),
   };
 }

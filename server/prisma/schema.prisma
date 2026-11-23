@@ -72,6 +72,10 @@ model User {
   mfaEnabled      Boolean   @default(false)
   mfaSecret       String?
   mfaBackupCodes  Json?
+  // Interface choices, kept here so they follow the person to any browser or
+  // device. Null until they choose; the browser's copy or the default applies.
+  language        String? // en | de
+  theme           String? // light | dark
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 

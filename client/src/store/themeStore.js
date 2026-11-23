@@ -2,11 +2,20 @@ import { create } from 'zustand';
 
 const KEY = 'aic_theme';
 
-function initial() {
-  if (typeof localStorage !== 'undefined') {
+// The theme chosen in this browser, if any. Reading can throw when the browser
+// blocks site data.
+export function savedTheme() {
+  try {
     const saved = localStorage.getItem(KEY);
-    if (saved === 'light' || saved === 'dark') return saved;
+    return saved === 'light' || saved === 'dark' ? saved : null;
+  } catch {
+    return null;
   }
+}
+
+function initial() {
+  const saved = savedTheme();
+  if (saved) return saved;
   if (typeof window !== 'undefined' && window.matchMedia) {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }

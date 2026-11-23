@@ -23,6 +23,8 @@ function publicUser(user) {
     organizationId: user.organizationId,
     emailVerified: Boolean(user.emailVerifiedAt),
     mfaEnabled: Boolean(user.mfaEnabled),
+    language: user.language,
+    theme: user.theme,
     permissions: permissionsFor(user.role),
   };
 }

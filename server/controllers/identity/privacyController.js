@@ -36,7 +36,7 @@ async function exportMe(req, res) {
     where: { id: userId },
     select: {
       id: true, email: true, fullName: true, role: true,
-      emailVerifiedAt: true, lastLoginAt: true, mfaEnabled: true,
+      emailVerifiedAt: true, lastLoginAt: true, mfaEnabled: true, language: true, theme: true,
       createdAt: true, updatedAt: true, organizationId: true,
     },
   });

@@ -15,6 +15,15 @@ async function updateMe(req, res) {
   res.json({ user: publicUser(user) });
 }
 
+// PATCH /api/users/me/preferences
+async function updatePreferences(req, res) {
+  const user = await prisma.user.update({
+    where: { id: req.user.id },
+    data: { language: req.body.language, theme: req.body.theme },
+  });
+  res.json({ preferences: { language: user.language, theme: user.theme } });
+}
+
 async function countOwners(organizationId) {
   return prisma.user.count({ where: { organizationId, role: 'owner' } });
 }
@@ -57,4 +66,4 @@ async function removeMember(req, res) {
   res.json({ message: 'Member removed' });
 }
 
-module.exports = { updateMe, updateRole, removeMember };
+module.exports = { updateMe, updatePreferences, updateRole, removeMember };
