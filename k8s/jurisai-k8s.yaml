@@ -38,6 +38,12 @@ parameters:
   csi.storage.k8s.io/node-stage-secret-namespace: longhorn-system
 ---
 # ---------------------------- PostgreSQL -------------------------------------
+# The database itself was removed on 2026-11-23: nothing had used it since the
+# move to cluster 2 on 2026-10-20 (server at 0, no connections), and its image
+# carried known vulnerabilities. This volume stays, with the dumps on
+# jurisai-backup-pvc, as the final copy of the pre-move data until both are
+# deleted on purpose.
+#
 # NOTE: these claims are named *-enc-pvc because they replaced the original
 # jurisai-postgres-pvc / jurisai-uploads-pvc, which were provisioned on the
 # plain `longhorn` class before `longhorn-encrypted` existed. storageClassName
@@ -55,83 +61,6 @@ spec:
   resources:
     requests:
       storage: 5Gi
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: jurisai-postgres
-  namespace: jurisai
-spec:
-  replicas: 1
-  strategy:
-    type: Recreate
-  selector:
-    matchLabels:
-      app: jurisai-postgres
-  template:
-    metadata:
-      labels:
-        app: jurisai-postgres
-    spec:
-      # Runs directly as the image's `postgres` user (uid 70), which already owns
-      # the data directory, so the entrypoint never needs root. No fsGroup on
-      # purpose: it would make PGDATA group-writable and Postgres refuses to start
-      # unless the data directory is 0700/0750.
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 70
-        runAsGroup: 70
-        seccompProfile: { type: RuntimeDefault }
-      containers:
-        - name: postgres
-          image: postgres:16.15-alpine3.24
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities: { drop: ["ALL"] }
-          ports:
-            - containerPort: 5432
-          env:
-            - name: POSTGRES_USER
-              valueFrom: { secretKeyRef: { name: jurisai-app-secrets, key: POSTGRES_USER } }
-            - name: POSTGRES_PASSWORD
-              valueFrom: { secretKeyRef: { name: jurisai-app-secrets, key: POSTGRES_PASSWORD } }
-            - name: POSTGRES_DB
-              valueFrom: { secretKeyRef: { name: jurisai-app-secrets, key: POSTGRES_DB } }
-            - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
-          volumeMounts:
-            - name: data
-              mountPath: /var/lib/postgresql/data
-            # Writable scratch for the read-only root: the socket dir and temp files.
-            - { name: pg-run, mountPath: /var/run/postgresql }
-            - { name: tmp, mountPath: /tmp }
-          readinessProbe:
-            exec: { command: ["sh", "-c", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"] }
-            initialDelaySeconds: 10
-            periodSeconds: 10
-          resources:
-            requests: { cpu: "100m", memory: "256Mi" }
-            limits: { cpu: "1", memory: "1Gi" }
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: jurisai-postgres-enc-pvc
-        - { name: pg-run, emptyDir: {} }
-        - { name: tmp, emptyDir: {} }
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: jurisai-postgres
-  namespace: jurisai
-spec:
-  selector:
-    app: jurisai-postgres
-  ports:
-    - port: 5432
-      targetPort: 5432
-  type: ClusterIP
 ---
 # ------------------------------ API server -----------------------------------
 apiVersion: v1
@@ -152,9 +81,9 @@ metadata:
   name: jurisai-server
   namespace: jurisai
 spec:
-  # 0: the app moved to cluster 2 (compliance.k8s.rit.services, database on
-  # prod-ha-1) on 2026-10-20. This database is the pre-move copy; keep it until
-  # the move is confirmed, then retire cluster 1's jurisai resources.
+  # 0: the app moved to cluster 2 (compliance.rit.services, database on
+  # prod-ha-1) on 2026-10-20. Its old database here was removed on 2026-11-23;
+  # only the volumes remain (see PostgreSQL above).
   replicas: 0
   strategy:
     type: Recreate
