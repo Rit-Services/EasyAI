@@ -706,10 +706,18 @@ a.btn, a.btn:hover { text-decoration: none; }
 }
 .auth-card {
   position: relative; z-index: 3;
-  width: 100%; max-width: 430px; background: var(--surface); border: 1px solid var(--border);
+  width: 100%; background: var(--surface); border: 1px solid var(--border); /* width set by AuthLayout */
   border-radius: 18px; box-shadow: var(--shadow-pop);
 }
 .auth-card .auth-body { padding: 32px 34px; }
+/* Sign-up: the account types side by side and the fields in two columns, so the
+   form is not one long column. One column on narrow screens. */
+.auth-modes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.auth-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; align-items: start; }
+.auth-grid-full { grid-column: 1 / -1; }
+@media (max-width: 760px) {
+  .auth-modes, .auth-grid { grid-template-columns: 1fr; }
+}
 .auth-brand { font-size: 20px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
 /* Language toggle pinned to the top-right of the auth pages, above the card/bg. */
 .auth-lang { position: absolute; top: 20px; right: 20px; z-index: 5; }

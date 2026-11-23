@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useT } from '@/hooks/useT';
 import { useLangStore } from '@/store/langStore';
 import NeuralBackground from '@/components/NeuralBackground';
@@ -8,12 +8,16 @@ import PoweredByRit from '@/components/PoweredByRit';
 export default function AuthLayout() {
   const { t } = useT();
   const lang = useLangStore((s) => s.lang);
+  const { pathname } = useLocation();
+  // Sign-up has the most to read and fill in (the account type choice, company
+  // details, the AVV), so it gets a wider card than the other auth screens.
+  const maxWidth = pathname === '/register' ? 860 : 430;
   return (
     <div className="auth-wrap">
       <div className="auth-watermark" aria-hidden="true">Compliance</div>
       <NeuralBackground />
       <div className="auth-lang"><LanguageSwitch /></div>
-      <div style={{ position: 'relative', zIndex: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, width: '100%', maxWidth: 430 }}>
+      <div style={{ position: 'relative', zIndex: 3, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, width: '100%', maxWidth }}>
         <div className="auth-card" style={{ position: 'static' }}>
           <div className="auth-body">
             <Link to="/welcome" className="row" style={{ gap: 10, marginBottom: 4, textDecoration: 'none' }} data-testid="auth-brand-link">

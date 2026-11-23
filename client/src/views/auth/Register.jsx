@@ -15,7 +15,7 @@ function ModeChoice({ mode, onChange, t }) {
   return (
     <fieldset className="field" style={{ border: 'none', padding: 0, margin: '0 0 16px' }} data-testid="mode-choice">
       <legend className="label" style={{ padding: 0 }}>{t('auth.modeQuestion')}</legend>
-      <div className="stack" style={{ gap: 8 }}>
+      <div className="auth-modes">
         {MODES.map((m) => (
           <label
             key={m}
@@ -82,7 +82,7 @@ export default function Register() {
       {error && <Banner kind="error">{error}</Banner>}
       <ModeChoice mode={mode} onChange={setMode} t={t} />
       {mode && (
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="auth-grid">
         <div className="field">
           <label className="label">{t('auth.fullName')}</label>
           <input className="input" data-testid="fullName" {...register('fullName', { required: t('auth.nameRequired') })} />
@@ -125,7 +125,7 @@ export default function Register() {
           field={register('password', { required: t('auth.passwordRequired'), minLength: { value: 8, message: t('auth.min8') } })}
         />
         {mode === 'production' ? (
-          <div className="field">
+          <div className="field auth-grid-full">
             <label className="row" style={{ gap: 8, alignItems: 'flex-start', cursor: 'pointer', fontWeight: 400 }}>
               <input type="checkbox" data-testid="avvAccepted" style={{ marginTop: 3 }} {...register('avvAccepted', { required: t('auth.avvRequired') })} />
               <span className="small">
@@ -137,7 +137,7 @@ export default function Register() {
             {errors.avvAccepted && <div className="error-text">{errors.avvAccepted.message}</div>}
           </div>
         ) : (
-          <div className="field">
+          <div className="field auth-grid-full">
             <label className="row" style={{ gap: 8, alignItems: 'flex-start', cursor: 'pointer', fontWeight: 400 }}>
               <input type="checkbox" data-testid="noRealDataConfirmed" style={{ marginTop: 3 }} {...register('noRealDataConfirmed', { required: t('auth.noRealDataRequired') })} />
               <span className="small">{t('auth.noRealData')}</span>
@@ -145,7 +145,7 @@ export default function Register() {
             {errors.noRealDataConfirmed && <div className="error-text">{errors.noRealDataConfirmed.message}</div>}
           </div>
         )}
-        <button className="btn btn-primary btn-block" type="submit" data-testid="submit" disabled={busy}>
+        <button className="btn btn-primary btn-block auth-grid-full" type="submit" data-testid="submit" disabled={busy}>
           {busy ? t('auth.creating') : t('auth.create')}
         </button>
       </form>
